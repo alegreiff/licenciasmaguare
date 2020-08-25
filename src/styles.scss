@@ -1,1 +1,39 @@
+@font-face {
+  font-family: 'DejaVu Sans';
+  src: url('/assets/DejaVuSans.ttf') format('truetype');
+}
+
+kendo-pdf-export {
+  font-family: "DejaVu Sans", "Arial", sans-serif;
+  font-size: 10px;
+}
+
+
+$primary: rgb(113, 213, 253);
+@import "~@progress/kendo-theme-default/scss/all";
+
+$good-color: rgb(3, 119, 3);
+$bad-color: rgb(88, 5, 5);
 /* You can add global styles to this file, and also import other style files */
+img.li-imagen{
+  max-width: 100%;
+}
+/* .k-header .vigente{
+  background: purple !important;
+  cursor: pointer !important;
+}
+
+.k-header .vencido{
+  background: red !important;
+  cursor: pointer !important;
+}
+ */
+kendo-panelbar-item.vigente span.k-header{
+  color: $good-color !important;
+  cursor: pointer !important;
+}
+
+kendo-panelbar-item.vencida span.k-header{
+  color: $bad-color !important;
+  cursor: pointer !important;
+}

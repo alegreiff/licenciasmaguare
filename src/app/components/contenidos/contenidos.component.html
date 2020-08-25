@@ -1,0 +1,30 @@
+<div class="row" *ngIf="contenidos.length === 0">
+  <div class="col-12">
+    <h1>C A R G A N D O</h1>
+  </div>
+</div>
+<div class="row" *ngIf="contenidos.length > 0">
+  <div class="col-12">
+    <kendo-grid
+  [kendoGridBinding]="contenidos"
+  [pageSize]="10"
+  [pageable]="true"
+  [sortable]="true"
+  [filterable]="true"
+>
+
+  <kendo-grid-column field="id" [width]="50" [filterable]="false">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <button class="btn-sm btn btn-primary" (click)="edit(dataItem.id)"> Editar </button>
+
+
+  </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="title" [width]="200"></kendo-grid-column>
+  <kendo-grid-column field="tipo" [width]="60"></kendo-grid-column>
+  <kendo-grid-column field="firebase" [width]="100"></kendo-grid-column>
+  <kendo-grid-column field="id" [width]="100"></kendo-grid-column>
+</kendo-grid>
+  </div>
+
+</div>

@@ -1,0 +1,104 @@
+<button class="k-button" (click)="pdf.saveAs('invoice.pdf')">
+  Save As PDF...
+</button>
+<kendo-pdf-export #pdf paperSize="Letter" margin="1cm" [imageResolution]="'36 dpi'">
+<div class="container" *ngIf="entradaActiva">
+  <div class="row">
+    <div class="col-4">
+      <strong>{{ entradaActiva.tipo }}</strong>
+    </div>
+    <div class="col-8">
+      <h2>{{ licencia.titulo }}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <img [src]="entradaActiva.img" alt="" class="li-imagen" width="320px">
+      <p>Estado: <span class="nomodify"> {{ licencia.estado }} </span></p>
+    </div>
+    <div class="col-8">
+      <h6> <span> Autor / intérprete </span> {{ entradaActiva.interprete_autor }}</h6>
+      {{ entradaActiva.descripcion }}
+      <div *ngIf="entradaActiva.seccion">
+        <button kendoButton look="flat" *ngFor="let secc of entradaActiva.seccion">{{ secc }}</button>
+      </div>
+
+      <!-- <ul *ngIf="entradaActiva.seccion" class="li-horiz-ul">
+        <li *ngFor="let secc of entradaActiva.seccion">
+
+        </li>
+      </ul> -->
+    </div>
+  </div>
+  <!-- <ng-container *ngIf="licencia.licencia" >
+  <div class="row"  *ngFor="let lic of licencia.licencia; let i=index">
+    <div class="col-1"> {{ i+ 1 }} </div>
+    <div class="col-3"> {{ lic.fechainicio }} </div>
+    <div class="col-3"> {{ lic.fechafin }} </div>
+    <div class="col-4"> {{ lic.documento }} </div>
+
+  </div>
+  </ng-container> -->
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-4">
+      <button kendoButton [icon]="'calendar'" *ngIf="!opened" (click)="open()">Agregar nueva licencia</button>
+    </div>
+  </div>
+  <hr>
+</div>
+    <kendo-window [title]="'Licencia nueva: ' + licencia.titulo + ' (' + entradaActiva.tipo + ')'"
+    *ngIf="opened" (close)="close()"
+    [width]="800"
+    [resizable]="false"
+    [state]="'default'"
+    [top]="10"
+    >
+    <app-nueva-licencia [licenciaId]="licencia.id" [licencias]="licencia.licencia"></app-nueva-licencia>
+
+    </kendo-window>
+    <!-- ESPECIAL -->
+    <div class="panelbar-wrapper">
+      <kendo-panelbar *ngIf="licencia.licencia">
+          <kendo-panelbar-item
+          *ngFor="let lic of licencia.licencia; let i=index"
+          [title]="!lic.fechafin ?  'Vigencia indefinida' : 'Días restantes: '+ (lic.fechafin.toDate() | fechamoment:'MMMM d, y')"
+          class="{{(!lic.fechafin) ? 'vigente' : (((lic.fechafin.toDate() | fechamoment:'MMMM d, y') > 0) ? 'vigente' : 'vencida' )}}"
+
+
+          >
+          <!-- [title]="'Vence: ' + lic.fechafin ? (lic.fechafin.toDate() | date) : 'Indefinido' + ' --- ' + (lic.fechafin.toDate() | fechamoment:'MMMM d, y')" -->
+          <!-- class="{{(lic.fechafin.toDate() | fechamoment:'MMMM d, y') > 0  ? 'vigente' : 'vencida'}}" -->
+              <ng-template kendoPanelBarContent>
+                <div class="col-12"> {{ i+ 1 }} </div>
+                <!-- <p>
+                  Días: {{  (lic.fechafin.toDate().getTime() - lic.fechainicio.toDate().getTime())/(1000*60*60*24)  }}
+                </p>
+                <div class="col-12"> {{ lic.fechainicio.toDate() | date:'MMMM d, y' }} </div>
+                <div class="col-12"> {{ lic.fechafin.toDate() | date:'MMMM d, y' }} </div>
+                <div> {{ lic.fechafin.toDate() | fechamoment:'MMMM d, y' }} </div> -->
+                <!-- <div class="col-12"> {{ moment(lic.fechafin).format('MMM') }} </div> -->
+
+                <div class="col-12"> {{ lic.documento }} </div>
+                <pre>
+                  {{ lic | json }}
+                </pre>
+
+              </ng-template>
+          </kendo-panelbar-item>
+
+      </kendo-panelbar>
+  </div>
+
+
+  </kendo-pdf-export>
+  <!-- <ng-container *ngIf="licencia.licencia" >
+    <div class="row"  *ngFor="let lic of licencia.licencia; let i=index">
+      <div class="col-1"> {{ i+ 1 }} </div>
+      <div class="col-3"> {{ lic.fechainicio }} </div>
+      <div class="col-3"> {{ lic.fechafin }} </div>
+      <div class="col-4"> {{ lic.documento }} </div>
+
+    </div>
+    </ng-container> -->

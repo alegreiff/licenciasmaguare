@@ -28,6 +28,9 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.scss"
             ],
             "scripts": []
@@ -66,7 +69,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "licencias:build"
+            "browserTarget": "licencias:build",
+            "port": 4219,
+            "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
@@ -92,6 +97,9 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.scss"
             ],
             "scripts": []
@@ -123,6 +131,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "licencias"
+    }
+  },
+  "defaultProject": "licencias",
+  "cli": {
+    "analytics": "8c5fa06c-d517-421f-adea-448c966371ba"
+  }
 }

@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/home">Licencias Maguaré</a>
+
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link"  routerLink="/home">Home </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/contenidos">Contenidos</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/reportelicencias">Reporte licencias</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/contactos">Contactos</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/protegida">Protegida</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+
+      <a class="nav-link" routerLink="/ingreso">Ingreso</a>
+    </span>
+    <span class="navbar-text">
+
+      <a class="nav-link" (click)="logout()">Salida</a>
+    </span>
+  </div>
+</nav>

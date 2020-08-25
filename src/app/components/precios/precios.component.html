@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-12">
+    <h2>Reporte de contenidos con licencia</h2>
+  </div>
+  <div class="col-12">
+    <kendo-grid
+      [kendoGridBinding]="contenidos"
+      [pageSize]="900"
+      [pageable]="false"
+      [sortable]="true"
+      [filterable]="true"
+    >
+    <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
+      <!-- <kendo-grid-column field="id" [width]="50" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <button
+            class="btn-sm btn btn-primary"
+            (click)="editarlicencia(dataItem.id)"
+          >
+            Editar
+          </button>
+        </ng-template>
+      </kendo-grid-column> -->
+      <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
+      <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
+      <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+<div class="row">
+
+  <div class="example-wrapper">
+    <button kendoButton *ngIf="!opened" (click)="open()">Open window</button>
+    <p *ngIf="dataSaved">Data has been saved</p>
+    <kendo-window title="Please provide additional data" *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450">
+
+    <form class="k-form">
+        <fieldset>
+            <legend>User Details</legend>
+
+            <label class="k-form-field">
+                <span>First Name</span>
+                <input class="k-textbox" placeholder="Your Name" />
+            </label>
+            <label class="k-form-field">
+                <span>Last Name</span>
+                <input class="k-textbox" placeholder="Your Last Name" />
+            </label>
+        </fieldset>
+
+        <div class="text-right">
+            <button type="button" class="k-button" (click)="close()">Cancel</button>
+            <button type="button" class="k-button k-primary" (click)="submit()">Submit</button>
+        </div>
+    </form>
+
+    </kendo-window>
+  </div>
+
+
+</div>
