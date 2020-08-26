@@ -1,102 +1,128 @@
 <div class="container">
-<div class="col-12">
-  <span>   {{ licenciaId }} </span>
-</div>
-<div class="col-12">
-  <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="guardaLicencia()">
-
-    <div>
-
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Fecha inicio</label>
-        <div class="col-8">
-                 <kendo-datepicker
-                  formControlName="fechainicio"
-              >
-              <kendo-datepicker-messages
-              today="Hoy"
-              toggle="Cambiar calendario"
-          ></kendo-datepicker-messages>
-            </kendo-datepicker>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Fecha fin (Deje en blanco sí es indefinida)</label>
-        <div class="col-8">
-          <kendo-datepicker
-                  formControlName="fechafin"
-              >
-              <kendo-datepicker-messages
-              today="Hoy"
-              toggle="Cambiar calendario"
-          ></kendo-datepicker-messages>
-            </kendo-datepicker>
-        </div>
-      </div>
+  <div class="col-12">
+    <span> {{ licenciaId }} </span>
+  </div>
+  <div class="col-12">
+    <form
+      autocomplete="off"
+      [formGroup]="formulario"
+      (ngSubmit)="guardaLicencia()"
+    >
       <div>
-        <div class="form-group row" *ngIf="formadeadquisicion">
-          <label class="col-4 col-form-label">Forma de adquisición</label>
+        <div class="form-group row">
+          <label class="col-4 col-form-label">Fecha inicio</label>
           <div class="col-8">
-                <kendo-dropdownlist
-        [defaultItem]="formadeadquisicion[0]"
-        [data]="formadeadquisicion[1]"
-        [textField]="'text'"
-        [valueField]="'value'"
-        formControlName="formaadquisicion"
-        style="width: 350px;"
-
-        ></kendo-dropdownlist>
+            <kendo-datepicker formControlName="fechainicio">
+              <kendo-datepicker-messages
+                today="Hoy"
+                toggle="Cambiar calendario"
+              ></kendo-datepicker-messages>
+            </kendo-datepicker>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-4 col-form-label">Modalidades de uso</label>
+          <label class="col-4 col-form-label"
+            >Fecha fin (Deje en blanco sí es indefinida)</label
+          >
           <div class="col-8">
-            <kendo-multiselect
-          [data]="modalidades"
-
-          formControlName="modalidadesuso"
-          ></kendo-multiselect>
+            <kendo-datepicker formControlName="fechafin">
+              <kendo-datepicker-messages
+                today="Hoy"
+                toggle="Cambiar calendario"
+              ></kendo-datepicker-messages>
+            </kendo-datepicker>
           </div>
         </div>
-        <kendo-fileselect
-        formControlName="files"
-        [multiple]="true"
-    >
-    <kendo-upload-messages
-    select="Seleccione..."
-    uploadSelectedFiles="Subir archivos"
-    clearSelectedFiles="Anular la selección"
-    >
-</kendo-upload-messages>
-  </kendo-fileselect>
+        <div>
+          <div class="form-group row" *ngIf="formadeadquisicion">
+            <label class="col-4 col-form-label">Forma de adquisición</label>
+            <div class="col-8">
+              <kendo-dropdownlist
+                [defaultItem]="formadeadquisicion[0]"
+                [data]="formadeadquisicion[1]"
+                [textField]="'text'"
+                [valueField]="'value'"
+                formControlName="formaadquisicion"
+                style="width: 350px;"
+              ></kendo-dropdownlist>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-4 col-form-label">Modalidades de uso</label>
+            <div class="col-8">
+              <kendo-multiselect
+                [data]="modalidades"
+                formControlName="modalidadesuso"
+              ></kendo-multiselect>
+            </div>
+          </div>
+          <!-- <div formGroupName="soportes">
+            <kendo-fileselect formControlName="files" [multiple]="false">
+              <kendo-upload-messages
+                select="Seleccione..."
+                uploadSelectedFiles="Subir archivos"
+                clearSelectedFiles="Anular la selección"
+              >
+              </kendo-upload-messages>
+            </kendo-fileselect>
+            <input formControlName="describesoporte" kendoTextBox />
 
-        <div class="form-group row">
-          <label class="col-4 col-form-label">Derechos licenciados</label>
-          <div class="col-8">
-            <kendo-multiselect
-          [data]="derechos"
+          </div> -->
 
-          formControlName="derechoslicenciados"
-          ></kendo-multiselect>
+          <div style="border: 2px crimson solid; padding: 1em;">
+            <button kendoButton type="button" (click)="agregaSoportes()">Agregar nuevo soporte</button>
+            <div class="form-group" *ngFor="let item of getSopps.controls; let i = index">
+              <ng-container [formGroup]="item">
+              <input formControlName='descripciones' kendoTextBox   />
+              <kendo-fileselect
+              formControlName='archivos'
+              [multiple]="false"
+              [restrictions]="restriccionesUpload"
+              >
+                <kendo-upload-messages
+                  select="Seleccione..."
+                  uploadSelectedFiles="Subir archivos"
+                  clearSelectedFiles="Anular la selección"
+                  dropFilesHere ="Arrastre aquí el archivo"
+                  invalidFileExtension = "Tipo de archivo No permitido (válidos: jpg, png y pdf)"
+                  invalidMaxFileSize ="Tamaño de archivo excede los 5mb"
+                  remove = "Quitar el archivo"
+                >
+                </kendo-upload-messages>
+              </kendo-fileselect>
+              <button kendoButton type="button" (click)="quitaSoporte(i)">Remover soporte</button>
+            </ng-container>
+              <!-- <input [formControlName]="'describex'" kendoTextBox /> -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-4 col-form-label">Derechos licenciados</label>
+            <div class="col-8">
+              <kendo-multiselect
+                [data]="derechos"
+                formControlName="derechoslicenciados"
+              ></kendo-multiselect>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="form-group row" *ngIf="contactos">
-      <label class="col-4 col-form-label">Contacto</label>
-      <div class="col-8">
-        <kendo-dropdownlist
-        [defaultItem]="contactoslist[0]"
-        [data]="contactoslist[1]"
-        [textField]="'text'"
-        [valueField]="'value'"
-        formControlName="contacto"
-        style="width: 350px;"
-        (valueChange)="contactoCambia($event)"
-
-        ></kendo-dropdownlist>
-        <button kendoButton *ngIf="!opened" (click)="open()">Crear nuevo titular de derechos</button>
-            <!-- <kendo-dropdownlist
+      <div class="form-group row" *ngIf="contactos">
+        <label class="col-4 col-form-label">Contacto</label>
+        <div class="col-8">
+          <kendo-dropdownlist
+            [defaultItem]="contactoslist[0]"
+            [data]="contactoslist[1]"
+            [textField]="'text'"
+            [valueField]="'value'"
+            formControlName="contacto"
+            style="width: 350px;"
+            (valueChange)="contactoCambia($event)"
+          ></kendo-dropdownlist>
+          <button kendoButton *ngIf="!opened" (click)="open()">
+            Crear nuevo titular de derechos
+          </button>
+          <!-- <kendo-dropdownlist
           [data]="contactos"
           [textField]="'nombremostrar'"
           [valueField]="'id'"
@@ -106,46 +132,43 @@
 
     >
   </kendo-dropdownlist> -->
+        </div>
       </div>
-
-    </div>
-    <div class="row">
-      <div style="background: red; padding: 0.8em" class="col-12">
-        <app-minicontacto [contactoid]="activecontacto"></app-minicontacto>
+      <div class="row">
+        <div style="background: red; padding: 0.8em;" class="col-12">
+          <app-minicontacto [contactoid]="activecontacto"></app-minicontacto>
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">&nbsp;</label>
-      <div class="input-group col-md-8">
-        <button type="submit" class="btn btn-outline-primary" *ngIf="formulario.valid">
-          Guardar
-        </button>
+      <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md-8">
+          <button
+            type="submit"
+            class="btn btn-outline-primary"
+            *ngIf="formulario.valid"
+          >
+            Guardar
+          </button>
+        </div>
       </div>
-    </div>
-
-  </form>
-</div>
+    </form>
+  </div>
 </div>
 <pre>
-  {{ formulario.value | json}}
+  {{ formulario.value | json }}
 </pre>
 
 <div class="col-12">
-
-
-<!-- <kendo-window
-title="Please provide additional data" *ngIf="opened" (close)="close()"
-    [width]="800"
-    [resizable]="false"
-    [state]="'maximized'"
-    [top]="10"
->
-
-<app-nuevoeditarcontacto [contactoId]="''"></app-nuevoeditarcontacto>
-
-</kendo-window> -->
-<kendo-dialog title="Nuevo contacto" *ngIf="opened" [minWidth]="600" [width]="600">
-  <app-nuevoeditarcontacto [contactoId]="''" [origenModal]="true" (cierraModal)="cerrar($event)"></app-nuevoeditarcontacto>
-</kendo-dialog>
-
+  <kendo-dialog
+    title="Nuevo contacto"
+    *ngIf="opened"
+    [minWidth]="600"
+    [width]="600"
+  >
+    <app-nuevoeditarcontacto
+      [contactoId]="''"
+      [origenModal]="true"
+      (cierraModal)="cerrar($event)"
+    ></app-nuevoeditarcontacto>
+  </kendo-dialog>
 </div>

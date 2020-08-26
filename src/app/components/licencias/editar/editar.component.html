@@ -81,6 +81,12 @@
                 <!-- <div class="col-12"> {{ moment(lic.fechafin).format('MMM') }} </div> -->
 
                 <div class="col-12"> {{ lic.documento }} </div>
+                <div *ngIf="lic.soportes">
+                  <span *ngFor="let item of lic.soportes">
+                    <a [href]="'https://maguare.gov.co/wp-content/plugins/licencias-maguare/uploads/' + item.archivo" target="_blank">
+                    {{ item.descripcion }} </a>
+                  </span>
+                </div>
                 <pre>
                   {{ lic | json }}
                 </pre>

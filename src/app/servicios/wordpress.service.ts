@@ -107,6 +107,19 @@ expresslogin(){
     return this.http.get(`${this.urlbase}apimagu/v2/contenido/${id}`,{headers: headers})
 
   }
+  subeSoporte(file: File){
+
+    const fd = new FormData();
+    fd.append('soporte', file, file.name)
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.userToken
+    })
+    return this.http.post(`${this.urlbase}apimagu/v2/upload`, fd, {headers: headers})
+  }
+
+//new Date().getTime()
+
+
   private guardarToken( idToken: string){
     //console.log("LEKONET", idToken)
     this.userToken = idToken;

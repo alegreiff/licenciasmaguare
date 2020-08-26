@@ -1,12 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { FileInfo, FileRestrictions } from '@progress/kendo-angular-upload';
 import { AngularFirestore} from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
+import { forkJoin} from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { AppState } from 'src/app/app.reducer';
 import { Contacto } from 'src/app/models/contacto.model';
 import { DerechosLicenciados, FormaAdquisicion, LicenciaContenido, ModalidadesDeUso } from 'src/app/models/contenido.model';
 import { UtilidadesService } from 'src/app/servicios/utilidades.service';
 import { ValidadoresService } from 'src/app/servicios/validadores.service';
+import { WordpressService } from 'src/app/servicios/wordpress.service';
 
 
 @Component({
@@ -31,6 +37,10 @@ contacto: string;
 activecontacto: string;
 opened = false;
 public myFiles: Array<any>;
+restriccionesUpload: FileRestrictions = {
+  allowedExtensions: ['jpg', 'pdf', 'png']
+};
+lossoportes: any[] = [];
 
 
   constructor(
@@ -38,7 +48,8 @@ public myFiles: Array<any>;
     private db: AngularFirestore,
     private utils: UtilidadesService,
     private validajaime: ValidadoresService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private ws: WordpressService
   ) { }
 
   ngOnInit(): void {
@@ -59,11 +70,26 @@ public myFiles: Array<any>;
       modalidadesuso: [''],
       derechoslicenciados: [''],
       contacto: [null],
-      //files: [this.myFiles, [Validators.required]]
-      files: [this.myFiles]
-
+      soportes: this.fb.array([])
     })
   }
+  get getSopps(){
+    return this.formulario.get('soportes') as FormArray;
+  }
+  agregaSoportes(){
+    const group = this.fb.group({
+      archivos: this.fb.control(null, [Validators.required]),
+      descripciones: this.fb.control(null, [Validators.required]),
+    });
+    (<FormArray>this.formulario.get('soportes')).push(group);
+
+  }
+
+  quitaSoporte(index: number){
+    const control = <FormArray>this.formulario.controls['soportes'];
+    control.removeAt(index);
+  }
+
 
   guardaLicencia(){
     console.log(this.formulario.value)
@@ -73,9 +99,88 @@ public myFiles: Array<any>;
     }else{
       this.contacto = ''
     }
+    if(this.formulario.value.soportes.length > 0){
+      this.guardaAnexos(this.formulario.value.soportes);
+    }else{
+      console.log('SIN ANEXOS');
+      this.modificaDoc()
+    }
+    /* console.log("CONTACTO", this.contacto) */
+    //this.modificaDoc()
+    /* console.log(this.formulario.value.soportes[0].archivos[0]); */
 
-    console.log("CONTACTO", this.contacto)
-    this.modificaDoc()
+    /* this.ws.subeSoporte(this.formulario.value.soportes[0].archivos[0]).subscribe(
+      (res) => {
+        if(res['exito']){
+          console.log('SUBIDO CON ÉXITO', res['archivo'])
+        }
+      }
+    ) */
+
+
+  }
+  guardaAnexos(soportes: any){
+    console.log('Los anexos son: ', soportes)
+
+
+
+
+    const calls = [];
+    let soportesdb = [];
+    for(let soporte of soportes){
+
+      calls.push(this.ws.subeSoporte(soporte.archivos[0])
+      .pipe(
+        map((res: any) => {
+          const describe = soporte.descripciones;
+          soportesdb.push({archivo: res.archivo, descripcion: describe})
+          return { ...res, describe }
+
+         })
+      ))
+
+    }
+/* this.attachToDelete.forEach(element => {
+  calls.push(this.documentService.DeleteAttachment(element, this.newDocumentId.toString()));
+}); */
+  forkJoin(calls,).subscribe(
+
+
+    () => {
+      console.log("SII", soportesdb)
+      this.lossoportes = soportesdb
+      this.modificaDoc()
+    }
+
+
+  )
+
+
+    //for(let soporte of soportes){
+
+
+
+      //observables.push(this.ws.subeSoporte(soporte.archivos[0]))
+      /* this.ws.subeSoporte(soporte.archivos[0]).subscribe(
+        (res) => {
+          if(res['exito']){
+            console.log('SUBIDO CON ÉXITO', res['archivo'])
+            soportesdb.push({archivo: res['archivo'], describe: soporte.descripciones})
+          }
+        }
+      ) */
+    //console.log(observables)
+//      forkJoin(observables)
+    //.subscribe(dataArray => {
+        // All observables in `observables` array have resolved and `dataArray` is an array of result of each observable
+    //    console.log("AAA", dataArray)
+    //});
+
+
+    //}
+
+
+
   }
   modificaDoc() {
     let updatedlicencia = [
@@ -86,7 +191,8 @@ public myFiles: Array<any>;
         documento: 'doc-licencia-'+ this.licenciaId + '-.pdf',
         formadeadquisicion: FormaAdquisicion[this.formulario.value.formaadquisicion.value],
         modalidadesdeuso: this.formulario.value.modalidadesuso,
-        contacto: this.contacto
+        contacto: this.contacto,
+        soportes: this.lossoportes
 
       },
     ];
@@ -119,5 +225,6 @@ public myFiles: Array<any>;
   open() {
     this.opened = true;
   }
+
 
 }

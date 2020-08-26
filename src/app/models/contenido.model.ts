@@ -23,7 +23,8 @@ interface Ilicencia {
   modalidadesdeusootro?: string,
   derechoslicenciados?: DerechosLicenciados[],
   derechoslicenciadosotro?: string,
-  contacto?: string
+  contacto?: string,
+  soportes?: any[]
 
 }
 export enum DerechosLicenciados {
