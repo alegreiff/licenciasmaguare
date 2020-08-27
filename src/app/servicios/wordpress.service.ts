@@ -16,6 +16,7 @@ import { EntradaWP } from '../models/entrada.model';
 export class WordpressService {
   userToken: string;
   urlbase: string = 'https://maguare.gov.co/wp-json/';
+  urlBaseEnlaces: string = 'https://staging.maguare.gov.co/documentos/';
   licencias: LicenciaContenido[];
   entradaactiva: EntradaWP;
   //https://maguare.gov.co/wp-json/

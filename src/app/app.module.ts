@@ -46,6 +46,10 @@ import { DiasPipe } from './pipes/dias.pipe';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 import { UploadsModule } from '@progress/kendo-angular-upload';
+import { LicenciaComponent } from './components/presentacion/licencia.component';
+import { ClaselicenciaPipe } from './pipes/claselicencia.pipe';
+import { FichacontactoComponent } from './components/presentacion/fichacontacto.component';
+import { DocanexosComponent } from './components/presentacion/docanexos.component';
 
 
 
@@ -75,7 +79,11 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
     ContactosComponent,
     NuevoeditarcontactoComponent,
     MomentPipe,
-    DiasPipe
+    DiasPipe,
+    LicenciaComponent,
+    ClaselicenciaPipe,
+    FichacontactoComponent,
+    DocanexosComponent
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,14 @@
       <h6> <span> Autor / intérprete </span> {{ entradaActiva.interprete_autor }}</h6>
       {{ entradaActiva.descripcion }}
       <div *ngIf="entradaActiva.seccion">
-        <button kendoButton look="flat" *ngFor="let secc of entradaActiva.seccion">{{ secc }}</button>
+
+        <kendo-chip-list>
+          <kendo-chip
+          *ngFor="let secc of entradaActiva.seccion"
+              [label]="secc"
+          >
+          </kendo-chip>
+      </kendo-chip-list>
       </div>
 
       <!-- <ul *ngIf="entradaActiva.seccion" class="li-horiz-ul">
@@ -48,6 +55,7 @@
   </div>
   <hr>
 </div>
+    <div class="k-overlay" *ngIf="opened"></div>
     <kendo-window [title]="'Licencia nueva: ' + licencia.titulo + ' (' + entradaActiva.tipo + ')'"
     *ngIf="opened" (close)="close()"
     [width]="800"
@@ -60,26 +68,36 @@
     </kendo-window>
     <!-- ESPECIAL -->
     <div class="panelbar-wrapper">
-      <kendo-panelbar *ngIf="licencia.licencia">
+
+      <kendo-panelbar *ngIf="licencia?.licencia">
+        <kendo-panelbar-item *ngFor="let lic of licencia.licencia; let i=index" title="">
+          <ng-template kendoPanelBarItemTitle>
+            <span [class]="([lic.fechainicio, lic.fechafin] | claselicencia) + ' k-icon'"></span>
+             {{ [lic.fechainicio, lic.fechafin] | titulolicencia}}
+        </ng-template>
+
+
+        <!--  -->
+
+        <ng-template kendoPanelBarContent>
+      <single-licencia  [licencia]="lic"></single-licencia>
+    </ng-template>
+        </kendo-panelbar-item>
+    </kendo-panelbar>
+      <!-- <kendo-panelbar *ngIf="licencia.licencia">
           <kendo-panelbar-item
           *ngFor="let lic of licencia.licencia; let i=index"
-          [title]="!lic.fechafin ?  'Vigencia indefinida' : 'Días restantes: '+ (lic.fechafin.toDate() | fechamoment:'MMMM d, y')"
+          [title]="!lic.fechafin ?  'Vigencia indefinida' : 'Vencimiento licencia: '+ (lic.fechafin.toDate() | fechamoment:'MMMM d, y')"
           class="{{(!lic.fechafin) ? 'vigente' : (((lic.fechafin.toDate() | fechamoment:'MMMM d, y') > 0) ? 'vigente' : 'vencida' )}}"
-
-
           >
-          <!-- [title]="'Vence: ' + lic.fechafin ? (lic.fechafin.toDate() | date) : 'Indefinido' + ' --- ' + (lic.fechafin.toDate() | fechamoment:'MMMM d, y')" -->
-          <!-- class="{{(lic.fechafin.toDate() | fechamoment:'MMMM d, y') > 0  ? 'vigente' : 'vencida'}}" -->
               <ng-template kendoPanelBarContent>
                 <div class="col-12"> {{ i+ 1 }} </div>
-                <!-- <p>
+                <p *ngIf="lic.fechafin">
                   Días: {{  (lic.fechafin.toDate().getTime() - lic.fechainicio.toDate().getTime())/(1000*60*60*24)  }}
                 </p>
                 <div class="col-12"> {{ lic.fechainicio.toDate() | date:'MMMM d, y' }} </div>
-                <div class="col-12"> {{ lic.fechafin.toDate() | date:'MMMM d, y' }} </div>
-                <div> {{ lic.fechafin.toDate() | fechamoment:'MMMM d, y' }} </div> -->
-                <!-- <div class="col-12"> {{ moment(lic.fechafin).format('MMM') }} </div> -->
-
+                <div class="col-12" *ngIf="lic.fechafin" > {{ lic.fechafin.toDate() | date:'MMMM d, y' }} </div>
+                <div *ngIf="lic.fechafin"> {{ lic.fechafin.toDate() | fechamoment:'MMMM d, y' }} </div>
                 <div class="col-12"> {{ lic.documento }} </div>
                 <div *ngIf="lic.soportes">
                   <span *ngFor="let item of lic.soportes">
@@ -94,7 +112,7 @@
               </ng-template>
           </kendo-panelbar-item>
 
-      </kendo-panelbar>
+      </kendo-panelbar> -->
   </div>
 
 

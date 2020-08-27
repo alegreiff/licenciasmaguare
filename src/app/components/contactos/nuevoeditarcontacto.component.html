@@ -1,66 +1,78 @@
 <div class="container">
   <div class="col-12">
-    Origen MODAL {{ origenModal }}
     <form
     autocomplete="off"
     [formGroup]="formacontacto"
     (ngSubmit)="salvarcontacto()"
     >
+
     <div class="form-group row">
-      <label class="col-4 col-form-label">Nombres</label>
-      <div class="col-8">
-        <kendo-textbox-container floatingLabel="Nombres">
-          <input kendoTextBox formControlName="nombres"/>
+
+      <div class="col-12">
+        <kendo-textbox-container  floatingLabel="Empresa">
+          <input class="entradatx" kendoTextBox formControlName="empresa"/>
         </kendo-textbox-container>
       </div>
     </div>
+
     <div class="form-group row">
-      <label class="col-4 col-form-label">Apellidos</label>
-      <div class="col-8">
+
+      <div class="col-12">
+        <kendo-textbox-container  floatingLabel="Nombres">
+          <input class="entradatx" kendoTextBox formControlName="nombres"  />
+        </kendo-textbox-container>
+      </div>
+    </div>
+
+
+
+
+    <div class="form-group row">
+
+      <div class="col-12">
         <kendo-textbox-container floatingLabel="Apellidos">
-          <input kendoTextBox formControlName="apellidos"/>
+          <input kendoTextBox class="entradatx" formControlName="apellidos"  />
         </kendo-textbox-container>
       </div>
     </div>
+
+    <div class="form-group row">
+
+      <div class="col-12">
+        <kendo-textbox-container floatingLabel="Correo electrónico">
+          <input kendoTextBox class="entradatx" formControlName="correo"/>
+        </kendo-textbox-container>
+      </div>
+    </div>
+
+
 
 
 
     <div class="form-group row" *ngIf="tipodocumento">
-      <label class="col-4 col-form-label">Forma de adquisición</label>
-      <div class="col-8">
-            <kendo-dropdownlist
+
+      <div class="col-6">
+    <kendo-dropdownlist
     [defaultItem]="tipodocumento[0]"
     [data]="tipodocumento[1]"
     [textField]="'text'"
     [valueField]="'value'"
     formControlName="tipodocumento"
-    style="width: 350px;"
+    style="width: 350px; margin-top: 1.3em;"
 
     ></kendo-dropdownlist>
       </div>
-    </div>
-
-    <div class="form-group row">
-      <label class="col-4 col-form-label">Documento</label>
-      <div class="col-8">
+      <div class="col-6">
         <kendo-textbox-container floatingLabel="Número de documento">
           <input kendoTextBox formControlName="documento"/>
         </kendo-textbox-container>
       </div>
     </div>
 
-    <!-- <div class="form-group row">
-      <label class="col-4 col-form-label">Teléfono</label>
-      <div class="col-8">
-        <kendo-textbox-container floatingLabel="Teléfono">
-          <input kendoTextBox formControlName="telefono"/>
-        </kendo-textbox-container>
-      </div>
-    </div> -->
 
     <div class="form-group row">
-      <label class="col-4 col-form-label">Dirección</label>
-      <div class="col-8">
+
+      <div class="col-12">
         <kendo-textbox-container floatingLabel="Dirección">
           <input kendoTextBox formControlName="direccion"/>
         </kendo-textbox-container>
@@ -68,15 +80,20 @@
     </div>
 
     <div class="form-group row">
-      <label class="col-4 col-form-label">Teléfonos</label>
+
       <div class="col-8" formArrayName="telefono">
         <div
         *ngFor="let item of getTelefono.controls; let indicephone = index" [formGroupName]="indicephone">
-          <input type="text" formControlName="tel"/>
-          <button type="button" (click)="removeTelefono(indicephone)" >Remove </button>
+        <kendo-textbox-container class="repetible" [floatingLabel]="'Teléfono ' + (indicephone + 1)">
+        <input kendoTextBox formControlName="tel" style="display: inline;"/>
+        <button kendoButton [icon]="'minus-outline'" type="button" (click)="removeTelefono(indicephone)" >Quitar teléfono</button>
+        </kendo-textbox-container>
+
+
+
 
         </div>
-        <button type="button" (click)="addTelefono()" >ADD </button>
+        <button kendoButton [icon]="'plus-outline'" type="button" (click)="addTelefono()" > Agregar teléfono </button>
       </div>
     </div>
 
@@ -91,14 +108,8 @@
     </div>
 
   </form>
-  <pre>
-    {{ contacto | json }}
-  </pre>
-  <pre>
-    {{ formacontacto.value | json }}
-  </pre>
   </div>
-
 </div>
+
 
 

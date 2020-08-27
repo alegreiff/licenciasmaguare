@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AppState } from 'src/app/app.reducer';
@@ -10,8 +10,7 @@ import { ContactosComponent } from './contactos.component';
 @Component({
   selector: 'app-nuevoeditarcontacto',
   templateUrl: './nuevoeditarcontacto.component.html',
-  styles: [
-  ]
+  styles: [ ],
 })
 export class NuevoeditarcontactoComponent implements OnInit {
 @Input() contactoId: string ='no';
@@ -51,11 +50,12 @@ export class NuevoeditarcontactoComponent implements OnInit {
       id: [this.contacto ? this.contacto.id : '' ],
       nombres: [this.contacto ? this.contacto.nombres : '' ],
       apellidos: [this.contacto ? this.contacto.apellidos : '' ],
-      correo: [this.contacto ? this.contacto.correo : '' ],
+      correo: [this.contacto ? this.contacto.correo : '' , Validators.email],
       tipodocumento: [this.contacto?.tipodocumento ? {text: this.contacto.tipodocumento, value: this.contacto.tipodocumento} : {text: this.textoSeleccionTipo, value: null} ],
       documento: [this.contacto?.documento ? this.contacto.documento : '' ],
       telefono: this.fb.array([this.fb.group({tel: []})]),
       direccion: [this.contacto?.direccion ? this.contacto.direccion : '' ],
+      empresa: [this.contacto?.empresa ? this.contacto.empresa : '' ],
     })
     if(this.contacto?.telefono){
       this.telefonosIniciales(this.contacto.telefono);
@@ -86,18 +86,22 @@ export class NuevoeditarcontactoComponent implements OnInit {
         telefono: telefonos,
         apellidos: this.formacontacto.value.apellidos,
         nombres: this.formacontacto.value.nombres,
+        correo: this.formacontacto.value.correo,
         direccion: this.formacontacto.value.direccion,
         tipodocumento: this.formacontacto.value.tipodocumento.value,
         documento: this.formacontacto.value.documento,
+        empresa: this.formacontacto.value.empresa,
       })
     }else{
       this.db.collection('contactos').add({
         telefono: telefonos,
         apellidos: this.formacontacto.value.apellidos,
         nombres: this.formacontacto.value.nombres,
+        correo: this.formacontacto.value.correo,
         direccion: this.formacontacto.value.direccion,
         tipodocumento: this.formacontacto.value.tipodocumento.value,
         documento: this.formacontacto.value.documento,
+        empresa: this.formacontacto.value.empresa,
       })
     }
     this.cierraModal.emit(false)

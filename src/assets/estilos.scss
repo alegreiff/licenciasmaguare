@@ -1,0 +1,91 @@
+$good-color: rgb(3, 119, 3);
+$bad-color: rgb(88, 5, 5);
+/* You can add global styles to this file, and also import other style files */
+img.li-imagen{
+  max-width: 100%;
+}
+
+kendo-panelbar-item.vigente span.k-header{
+  color: $good-color !important;
+  cursor: pointer !important;
+}
+
+kendo-panelbar-item.vencida span.k-header{
+  color: $bad-color !important;
+  cursor: pointer !important;
+}
+
+kendo-textbox-container{
+  width: 100%;
+  }
+
+kendo-textbox-container.repetible{
+  display: flex;
+  flex-direction: row;
+}
+
+.k-label{
+  color: rgb(59, 149, 252);
+}
+
+.container {
+  padding-top: 1.5em;
+}
+
+.vigen{
+  margin-right: .5em;
+  font-size: 1.5em;
+}
+.vigen::before{
+  content: "\e11a";
+  color: $good-color;
+}
+
+.venci{
+  margin-right: .5em;
+  font-size: 1.5em;
+}
+.venci::before{
+  content: "\e11d";
+  color: $bad-color;
+}
+
+.indef{
+  margin-right: .5em;
+  font-size: 1.5em;
+}
+.indef::before{
+  content: "\e11f";
+  color: $good-color;
+}
+
+// LICENCIA///
+
+.licencia{
+  padding: 1em;
+}
+
+.datoslicencia{
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 1em;
+}
+.spanmodalidades{
+  border: 1px rgb(109, 109, 230) solid;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  display: block;
+  margin: 0.5em;
+}
+.spanderechos{
+  border: 1px rgb(231, 120, 16) solid;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  display: block;
+  margin: 0.5em;
+}
+
+button.nohay{
+  margin: 0.2em;
+
+}

@@ -1,33 +1,35 @@
-<div class="row">
-  <div class="col-12">
-    <button (click)="open('')"> Nuevo </button>
-    <kendo-grid
-      [kendoGridBinding]="contactos"
-      [pageSize]="900"
-      [pageable]="false"
-      [sortable]="true"
-      [filterable]="true"
-    >
-    <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
-    <kendo-grid-column field="id" [width]="50" [filterable]="false">
-      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <button class="btn-sm btn btn-primary" (click)="open(dataItem.id)"> Editar </button>
-        <span> {{ numeroLicenciasContacto(dataItem.id) }} </span>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <button kendoButton [primary]="true" icon="user" (click)="open('')">Crear nuevo contacto</button>
+      <kendo-grid
+        [kendoGridBinding]="contactos"
+        [pageSize]="900"
+        [pageable]="false"
+        [sortable]="true"
+        [filterable]="true"
+      >
+      <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
+      <kendo-grid-column field="id" [width]="50" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <button class="btn-sm btn btn-primary" (click)="open(dataItem.id)"> Editar </button>
+          <span> {{ numeroLicenciasContacto(dataItem.id) }} </span>
 
 
-    </ng-template>
-    </kendo-grid-column>
-      <kendo-grid-column field="nombres" [width]="40"></kendo-grid-column>
-      <kendo-grid-column field="apellidos" [width]="200"></kendo-grid-column>
-      <kendo-grid-column field="correo" [width]="60"></kendo-grid-column>
-    </kendo-grid>
-  </div>
+      </ng-template>
+      </kendo-grid-column>
+        <kendo-grid-column field="nombres" [width]="40"></kendo-grid-column>
+        <kendo-grid-column field="apellidos" [width]="200"></kendo-grid-column>
+        <kendo-grid-column field="correo" [width]="60"></kendo-grid-column>
+      </kendo-grid>
+    </div>
+  </div>5
 </div>
 
 <!-- Ventana MODAL -->
 <div class="row">
+  <div class="k-overlay" *ngIf="opened"></div>
 
-  <div class="example-wrapper">
     <kendo-window [title]="contactoid ==='' ? 'Nuevo contenido' : contactoeditado.nombres + ' ' + contactoeditado.apellidos"
     *ngIf="opened" (close)="close()"
     [width]="800"
@@ -38,7 +40,7 @@
 <app-nuevoeditarcontacto [contactoId]="contactoid"></app-nuevoeditarcontacto>
 
     </kendo-window>
-  </div>
+
 
 <!-- {{ licencias.length }}
 {{ sumatorialicencias }} -->

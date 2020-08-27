@@ -67,13 +67,14 @@ export class FireServiceService {
         return docArray.map( doc => {
           return {
             id: doc.payload.doc.id,
+            empresa: doc.payload.doc.data()['empresa'],
             nombres: doc.payload.doc.data()['nombres'],
             apellidos: doc.payload.doc.data()['apellidos'],
             tipodocumento: doc.payload.doc.data()['tipodocumento'],
             documento: doc.payload.doc.data()['documento'],
             telefono: doc.payload.doc.data()['telefono'],
             correo: doc.payload.doc.data()['correo'],
-            direccion: doc.payload.doc.data()['licendireccioncia'],
+            direccion: doc.payload.doc.data()['direccion'],
             nombremostrar: doc.payload.doc.data()['nombres'] + ' ' + doc.payload.doc.data()['apellidos']
           }
         } )

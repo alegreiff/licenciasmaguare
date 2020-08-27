@@ -1,0 +1,23 @@
+<kendo-card style="width: 400px;">
+  <div>
+    <span style="padding: 0.6em;">Contacto</span>
+      <kendo-card-header>
+          <h3 kendoCardTitle *ngIf="contacto.empresa"> {{ contacto.empresa }} </h3>
+
+          <div kendoCardSubtitle>
+              <span class="reviews">
+                <h4 kendoCardTitle> <strong>{{ contacto.apellidos }}</strong>  {{ contacto.nombres }} </h4>
+                  <div> <span> {{ contacto.tipodocumento }} </span>  <strong> {{ contacto.documento }} </strong> </div>
+              </span>
+          </div>
+      </kendo-card-header>
+      <kendo-card-body>
+        <div> Dirección: <span> {{ contacto.direccion }} </span> </div>
+        <div> Correo: <span> {{ contacto.correo }} </span> </div>
+        <div *ngFor="let tel of contacto.telefono; let i = index"> Tel {{ (i+1) }}: <span> {{ tel }} </span> </div>
+      </kendo-card-body>
+      <kendo-card-actions>
+          <button class="k-button k-primary k-flat">PENDIENTE</button>
+      </kendo-card-actions>
+  </div>
+</kendo-card>

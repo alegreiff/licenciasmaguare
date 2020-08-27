@@ -188,11 +188,12 @@ lossoportes: any[] = [];
       {
         fechafin: this.formulario.value.fechafin,
         fechainicio: this.formulario.value.fechainicio,
-        documento: 'doc-licencia-'+ this.licenciaId + '-.pdf',
+
         formadeadquisicion: FormaAdquisicion[this.formulario.value.formaadquisicion.value],
         modalidadesdeuso: this.formulario.value.modalidadesuso,
         contacto: this.contacto,
-        soportes: this.lossoportes
+        soportes: this.lossoportes,
+        derechoslicenciados: this.formulario.value.derechoslicenciados
 
       },
     ];

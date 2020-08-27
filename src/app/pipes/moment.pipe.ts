@@ -8,7 +8,7 @@ import 'moment/locale/es';
 export class MomentPipe implements PipeTransform {
   transform(value: Date|moment.Moment, ...args: any[]): any {
       let [format] = args;
-      //return moment(value).format(format);
-      return moment(value).diff(moment(), 'days')
+      let sale: any = moment.duration(moment(value).diff(moment()));
+      return `${sale.years()} años / ${sale.months()} meses / ${sale.days()}  días.`;
   }
 }

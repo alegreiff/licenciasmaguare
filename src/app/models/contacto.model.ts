@@ -8,10 +8,11 @@ export interface Contacto{
   correo?: string
   direccion?: string
   nombremostrar?: string
+  empresa?: string
 }
 
 export enum TipoDocumento {
   'CC' = 'CC',
   'CE' = 'CE',
   'PAS' = 'PAS'
-  }
+}

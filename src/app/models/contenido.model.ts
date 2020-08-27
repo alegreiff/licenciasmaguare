@@ -14,10 +14,9 @@ export interface LicenciaContenido {
 
 }
 
-interface Ilicencia {
+export interface Ilicencia {
   fechainicio: any,
   fechafin?: any,
-  documento?: string,
   formadeadquisicion?: FormaAdquisicion,
   modalidadesdeuso?: ModalidadesDeUso[],
   modalidadesdeusootro?: string,

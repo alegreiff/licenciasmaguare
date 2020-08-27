@@ -1,0 +1,55 @@
+<div class="licencia">
+
+  <div>
+    <p>Forma de adquisición: <strong> {{ licencia.formadeadquisicion }} </strong></p>
+    <button kendoButton [icon]="'calendar'"></button> Fecha de inicio: {{ licencia.fechainicio.toDate() | date:'MMMM d, y' }}
+
+    <span *ngIf="licencia.fechafin; else sinFinal"><button kendoButton [icon]="'calendar'"></button> Fecha de finalización: {{ licencia.fechafin.toDate() | date:'MMMM d, y' }}</span>
+    <ng-template #sinFinal><button class="nohay" kendoButton [disabled]="true">Sin fecha de finalización</button></ng-template>
+  </div>
+
+  <div class="datoslicencia">
+    <contactomaguare *ngIf="licencia.contacto; else noContacto"  [idContacto]="licencia.contacto"></contactomaguare>
+    <ng-template #noContacto><button class="nohay" kendoButton [disabled]="true">No hay contacto</button></ng-template>
+    <div>
+      <div *ngIf="licencia.modalidadesdeuso; else noModalidades ">
+        Modalidades de uso:
+          <span class="spanmodalidades" *ngFor="let modal of licencia.modalidadesdeuso"> {{ modal }} </span>
+      </div>
+      <ng-template #noModalidades><button class="nohay" kendoButton [disabled]="true">Sin modalidades de uso</button></ng-template>
+
+      <div *ngIf="licencia.derechoslicenciados; else noDerechos ">
+        Derechos licenciados:
+          <span class="spanderechos" *ngFor="let derecho of licencia.derechoslicenciados"> {{ derecho }} </span>
+      </div>
+      <ng-template #noDerechos><button class="nohay" kendoButton [disabled]="true">Sin derechos licenciados</button></ng-template>
+
+    </div>
+  </div>
+
+  <anexos *ngIf="licencia.soportes.length; else noSoportes" [soportes]="licencia.soportes"></anexos>
+<ng-template #noSoportes><button class="nohay" kendoButton [disabled]="true">No hay soportes cargados</button></ng-template>
+
+
+</div>
+
+
+<!-- <p> {{ [licencia.fechainicio, licencia.fechafin] | titulolicencia }} </p>
+<hr>
+<p> ESTART =  {{ licencia.fechainicio.toDate() | date:'MMMM d, y' }}</p>
+<p *ngIf="licencia.fechafin"> HEND = {{ licencia.fechafin.toDate() | date:'MMMM d, y' }}</p> -->
+
+
+
+
+
+<!-- <p *ngIf="licencia.contacto">
+  {{ licencia.contacto | json }}
+</p> -->
+<pre>
+  {{ licencia | json }}
+
+</pre>
+
+
+
