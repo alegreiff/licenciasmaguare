@@ -6,6 +6,7 @@ import { AppState } from '../app.reducer';
 //IMPORTO LAS ACCIONES
 import * as licenciasActions from "../components/store/licencias.actions";
 import * as contactosActions from "../components/store/contactos.actions";
+import * as opcionesActions from "../components/store/opciones.actions";
 import { Contacto } from '../models/contacto.model';
 import { LicenciaContenido } from '../models/contenido.model';
 @Injectable({
@@ -17,6 +18,30 @@ export class FireServiceService {
     private db: AngularFirestore,
     private store: Store<AppState>
   ) { }
+  cargaOpcionesGenerales(){
+    return this.db.collection('opciones').snapshotChanges().pipe(
+      map(res => {
+        return res.map( doc => {
+          return {
+
+            //id: doc.payload.doc.id,
+            formasdeadquisicion: doc.payload.doc.data()['formasdeadquisicion'],
+            modalidadesdeuso: doc.payload.doc.data()['modalidadesdeuso'],
+            derechoslicenciados: doc.payload.doc.data()['derechoslicenciados'],
+            nombre: doc.payload.doc.data()['nombreapp'],
+
+
+          }
+        } )
+      })
+    ).subscribe((e: any[]) => {
+      //console.log('Opciones cargadas', e);
+      this.store.dispatch(opcionesActions.setOpciones({opciones: e[0]}))
+
+      this.cargaLicencias()
+      this.cargaContactos()
+    })
+  }
   cargaLicencias(){
     return this.db.collection('licencias').snapshotChanges()
     .pipe(
@@ -24,42 +49,31 @@ export class FireServiceService {
         return docArray.map( (doc: any) => {
           let sale = (doc.payload.doc.data()['licencia']).sort((a, b) => b.fechafin - a.fechafin)
 
-          if(doc.payload.doc.data()['licencia']){
-
-            //console.log(doc.payload.doc.data()['licencia'])
-            //console.log(sale)
-          }
-
+          /* if(doc.payload.doc.data()['licencia']){
+          } */
           return {
             id: doc.payload.doc.id,
             titulo: doc.payload.doc.data()['titulo'],
             wpid: doc.payload.doc.data()['wpid'],
             estado: doc.payload.doc.data()['estado'],
             formadeadquisicion: doc.payload.doc.data()['formadeadquisicion'],
-            /* licencia: doc.payload.doc.data()['licencia'], */
             licencia: sale
-            //contacto: doc.payload.doc.data()['contacto'],
-
-
           }
         } )
       })
     )
     .subscribe((res: LicenciaContenido[]) => {
-
       this.store.dispatch( licenciasActions.setLicencias({licencias: res}) )
       console.log('LICENCIAS CARGADAS', res)
-
     })
-
-
   }
-  cargaLI(){
+  /* cargaLI(){
     this.db.collection('licencias').get().subscribe(
-      e => console.log("vvvx",e)
-    )
+      (e:any) => {
 
-  }
+      }
+    )
+  } */
   cargaContactos(){
     return this.db.collection('contactos').snapshotChanges()
     .pipe(
@@ -86,52 +100,4 @@ export class FireServiceService {
     })
   }
 }
-/*
-export interface Contacto{
-  id?: string,
-  nombres?: string,
-  apellidos?: string,
-  tipodocumento?: string,
-  documento?: string,
-  telefono?: string[],
-  correo?: string,
-  direccion?: string
-}
 
-*/
-
-/*
-
-map(docArray => {
-        return docArray.map( doc => {
-          let licence = doc.payload.doc.data()['licencia'];
-          let contacto
-
-          doc.payload.doc.data()['licencia'].map(lic => {
-            if(lic.contacto){
-              lic.contacto.get().then(result => {
-                doc.payload.doc.data()['licencia'] = ''
-                console.log("KTK",result.data());
-                contacto = result.data;
-              });
-              console.log("XK", contacto)
-            }
-            lic = 'VACIO'
-              return lic
-          })
-          ;
-          console.log(doc.payload.doc.data()['licencia'])
-          return {
-            id: doc.payload.doc.id,
-            titulo: doc.payload.doc.data()['titulo'],
-            wpid: doc.payload.doc.data()['wpid'],
-            estado: doc.payload.doc.data()['estado'],
-            formadeadquisicion: doc.payload.doc.data()['formadeadquisicion'],
-            licencia: doc.payload.doc.data()['licencia']
-
-          }
-        } )
-      })
-
-
- */

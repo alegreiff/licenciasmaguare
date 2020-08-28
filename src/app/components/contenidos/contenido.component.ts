@@ -58,6 +58,14 @@ existeEnLicencias: boolean = false;
         if(this.licencias){
 
           this.existeEnLicencias = this.licencias.some(licencia => licencia.wpid == e.id);
+
+        }
+        if(this.existeEnLicencias){
+          console.log("SI TIENE LICENCIA", this.existeEnLicencias)
+          this.editarlicencia()
+        }else{
+          console.log("NOO TIENE LICENCIA", this.existeEnLicencias)
+          this.creacontenido()
         }
       })
     })
@@ -69,13 +77,8 @@ existeEnLicencias: boolean = false;
     wpid: this.entradawp.wpid,
     titulo: this.entradawp.titulo,
     estado: EstadoContenido[this.entradawp.status],
-    //interprete_autor: this.entradawp.interprete_autor,
-    //descripcion: this.entradawp.descripcion,
-    //formadeadquisicion: FormaAdquisicion[this.entradawp.status],
     licencia: [
-
     ]
-
   }
   this.entradawp.firebase = true
   console.info(this.contenido)
@@ -83,10 +86,6 @@ existeEnLicencias: boolean = false;
   .then(res => {
     this.router.navigate(['/licencia', res.id])
   })
-
-  /*
-  console.log(last); */
-
   }
   editarlicencia(){
     const id = (this.licencias.find(licencia => licencia.wpid === this.entradawp.wpid)).id
@@ -95,7 +94,3 @@ existeEnLicencias: boolean = false;
   }
 
 }
-
-/*
-ICBF Instituto Colombiano de Bienestar Familiar - Ministerio de Cultura - Ministerio de Educación - Fundación Plan
-*/

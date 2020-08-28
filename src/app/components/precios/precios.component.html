@@ -1,5 +1,10 @@
 <div class="row">
   <div class="col-12">
+    <pre>
+      {{ modalidades | json }}
+    </pre>
+    <p>MODS</p>
+    <hr>
     <h2>Reporte de contenidos con licencia</h2>
   </div>
   <div class="col-12">
@@ -11,16 +16,16 @@
       [filterable]="true"
     >
     <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
-      <!-- <kendo-grid-column field="id" [width]="50" [filterable]="false">
+      <kendo-grid-column field="id" [width]="50" [filterable]="false">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <button
             class="btn-sm btn btn-primary"
-            (click)="editarlicencia(dataItem.id)"
+            (click)="editarlicencia(dataItem.wpid)"
           >
             Editar
           </button>
         </ng-template>
-      </kendo-grid-column> -->
+      </kendo-grid-column>
       <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
       <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
       <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>

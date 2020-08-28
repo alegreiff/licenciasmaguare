@@ -9,6 +9,7 @@ export class UtilidadesService {
   constructor() { }
 
     enumToSelect(elementos: any[], etiqueta: string) : any[] {
+      console.log("leselementon", elementos)
       let defaultItem: { text: string, value: string } = { text: etiqueta + '...', value: null };
       let listItems: Array<{ text: string, value: string }> = [];
       for (let item of elementos){

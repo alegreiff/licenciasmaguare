@@ -25,9 +25,9 @@ export class NuevaLicenciaComponent implements OnInit {
 @Input() licenciaId: string;
 @Input() licencias: Partial<LicenciaContenido>[];
 
-formaAdquisicion = Object.keys(FormaAdquisicion);
-modalidades = Object.keys(ModalidadesDeUso);
-derechos = Object.keys(DerechosLicenciados);
+//formaAdquisicion = Object.keys(FormaAdquisicion);
+//modalidades = Object.keys(ModalidadesDeUso);
+//derechos = Object.keys(DerechosLicenciados);
 formulario: FormGroup;
 licenciaNueva: Partial<LicenciaContenido>;
 formadeadquisicion: any[];
@@ -41,8 +41,9 @@ restriccionesUpload: FileRestrictions = {
   allowedExtensions: ['jpg', 'pdf', 'png']
 };
 lossoportes: any[] = [];
-
-
+modalidades : []
+formaAdquisicion: []
+derechos: []
   constructor(
     private fb: FormBuilder,
     private db: AngularFirestore,
@@ -53,8 +54,14 @@ lossoportes: any[] = [];
   ) { }
 
   ngOnInit(): void {
+    this.store.select('opciones').subscribe(({opciones}) => {
+      this.modalidades = opciones['derechoslicenciados'];
+      this.formaAdquisicion = opciones['formasdeadquisicion'];
+      this.derechos = opciones['derechoslicenciados'];
+    })
 
-    this.formadeadquisicion = this.utils.enumToSelect(Object.keys(FormaAdquisicion), 'Seleccione la forma de adquisición');
+    //this.formadeadquisicion = this.utils.enumToSelect(Object.keys(FormaAdquisicion), 'Seleccione la forma de adquisición');
+    this.formadeadquisicion = this.utils.enumToSelect(this.formaAdquisicion, 'Seleccione la forma de adquisición');
     this.creaFormulario()
     this.store.select('contactos').subscribe(({ contactos }) => {
       this.contactos = contactos

@@ -32,9 +32,10 @@ export class WordpressService {
     return this.http.post(`${this.urlbase}jwt-auth/v1/token`, {username, password})
     .pipe(
       map( resp => {
+        this.fires.cargaOpcionesGenerales()
         this.guardarToken(resp['token'])
-        this.fires.cargaLicencias();
-        this.fires.cargaContactos();
+        //this.fires.cargaLicencias();
+        //this.fires.cargaContactos();
         this.cargaEntradas(resp['token'])
         return resp
       })
@@ -47,8 +48,7 @@ export class WordpressService {
     ) */
   }
 expresslogin(){
-  this.fires.cargaLicencias();
-  this.fires.cargaContactos();
+  this.fires.cargaOpcionesGenerales()
   this.cargaEntradas(this.userToken)
 }
 
@@ -85,6 +85,7 @@ expresslogin(){
     )
   }
   validaUsuario(){
+
     const token = this.leerToken();
     const headers = new HttpHeaders({
 
@@ -94,6 +95,9 @@ expresslogin(){
     return this.http.post(`${this.urlbase}jwt-auth/v1/token/validate`, null , {headers: headers}).pipe(
       map( (res: any) =>  res.data.status==200)
     )
+
+
+
 
 
   }
