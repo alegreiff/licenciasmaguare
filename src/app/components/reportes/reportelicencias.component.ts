@@ -9,11 +9,11 @@ import { WordpressService } from 'src/app/servicios/wordpress.service';
 //import * as ingresoEgresoActions from "../../components/store/datos.actions";
 
 @Component({
-  selector: 'app-precios',
-  templateUrl: './precios.component.html',
+  selector: 'reportelicencias',
+  templateUrl: './reportelicencias.component.html',
   styles: [],
 })
-export class PreciosComponent implements OnInit {
+export class ReporteLicenciasComponent implements OnInit {
   contenidos: LicenciaContenido[];
   modalidades: []
 

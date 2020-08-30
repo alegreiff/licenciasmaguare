@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProtegidaComponent } from './components/protegida/protegida.component';
-import { PreciosComponent } from './components/precios/precios.component';
+
 import { LoginComponent } from './components/login/login.component';
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
@@ -50,6 +50,7 @@ import { ClaselicenciaPipe } from './pipes/claselicencia.pipe';
 import { FichacontactoComponent } from './components/presentacion/fichacontacto.component';
 import { DocanexosComponent } from './components/presentacion/docanexos.component';
 import { ObservacionesComponent } from './components/presentacion/observaciones.component';
+import { ReporteLicenciasComponent } from './components/reportes/reportelicencias.component';
 
 
 
@@ -69,7 +70,7 @@ import { ObservacionesComponent } from './components/presentacion/observaciones.
     NavbarComponent,
     HomeComponent,
     ProtegidaComponent,
-    PreciosComponent,
+    ReporteLicenciasComponent,
     LoginComponent,
     ContenidosComponent,
     ContenidoComponent,

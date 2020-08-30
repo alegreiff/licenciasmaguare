@@ -6,8 +6,8 @@ import { ContenidosComponent } from './components/contenidos/contenidos.componen
 import { HomeComponent } from './components/home/home.component';
 import { EditarComponent } from './components/licencias/editar/editar.component';
 import { LoginComponent } from './components/login/login.component';
-import { PreciosComponent } from './components/precios/precios.component';
 import { ProtegidaComponent } from './components/protegida/protegida.component';
+import { ReporteLicenciasComponent } from './components/reportes/reportelicencias.component';
 import { AuthGuard } from './servicios/auth.guard';
 
 
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'contenidos', component: ContenidosComponent, canActivate: [ AuthGuard ]},
   { path: 'contenido/:id', component: ContenidoComponent, canActivate: [ AuthGuard ] },
   { path: 'licencia/:licenciaId', component: EditarComponent, canActivate: [ AuthGuard ] },
-  { path: 'reportelicencias', component: PreciosComponent, canActivate: [ AuthGuard ]},
+  { path: 'reportelicencias', component: ReporteLicenciasComponent, canActivate: [ AuthGuard ]},
   { path: 'contactos', component: ContactosComponent, canActivate: [ AuthGuard ]},
   { path: 'protegida', component: ProtegidaComponent, canActivate: [ AuthGuard ]},
   { path: 'ingreso', component: LoginComponent},
