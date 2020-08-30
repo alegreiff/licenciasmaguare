@@ -12,7 +12,7 @@ import { AuthGuard } from './servicios/auth.guard';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent},
   { path: 'contenidos', component: ContenidosComponent, canActivate: [ AuthGuard ]},
   { path: 'contenido/:id', component: ContenidoComponent, canActivate: [ AuthGuard ] },
   { path: 'licencia/:licenciaId', component: EditarComponent, canActivate: [ AuthGuard ] },
@@ -20,11 +20,11 @@ const routes: Routes = [
   { path: 'contactos', component: ContactosComponent, canActivate: [ AuthGuard ]},
   { path: 'protegida', component: ProtegidaComponent, canActivate: [ AuthGuard ]},
   { path: 'ingreso', component: LoginComponent},
-  { path: '**', pathMatch: 'full', redirectTo: 'home'},
+  { path: '**', pathMatch: 'full', redirectTo: ''},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

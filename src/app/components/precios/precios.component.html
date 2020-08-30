@@ -26,6 +26,14 @@
           </button>
         </ng-template>
       </kendo-grid-column>
+      <kendo-grid-column field="licencia" [width]="90" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          {{ dataItem.licencia[0].fechainicio.toDate() | date:'MMMM d, y' }}
+        </ng-template>
+      </kendo-grid-column>
+
+
+      <kendo-grid-column field="totallicencias" [width]="40"></kendo-grid-column>
       <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
       <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
       <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
@@ -64,3 +72,7 @@
 
 
 </div>
+<pre>
+{{ contenidos | json }}
+
+</pre>

@@ -1,7 +1,5 @@
-<button class="k-button" (click)="pdf.saveAs('invoice.pdf')">
-  Save As PDF...
-</button>
-<kendo-pdf-export #pdf paperSize="Letter" margin="1cm" [imageResolution]="'36 dpi'">
+<!-- <button class="k-button" (click)="pdf.saveAs('invoice.pdf')">  Save As PDF...</button>
+<kendo-pdf-export #pdf paperSize="Letter" margin="1cm" [imageResolution]="'36 dpi'"></kendo-pdf-export> -->
 <div class="container" *ngIf="entradaActiva">
   <div class="row">
     <div class="col-4">
@@ -21,7 +19,6 @@
       <h6> <span> Autor / intérprete </span> {{ entradaActiva.interprete_autor }}</h6>
       {{ entradaActiva.descripcion }}
       <div *ngIf="entradaActiva.seccion">
-
         <kendo-chip-list>
           <kendo-chip
           *ngFor="let secc of entradaActiva.seccion"
@@ -30,23 +27,8 @@
           </kendo-chip>
       </kendo-chip-list>
       </div>
-
-      <!-- <ul *ngIf="entradaActiva.seccion" class="li-horiz-ul">
-        <li *ngFor="let secc of entradaActiva.seccion">
-
-        </li>
-      </ul> -->
     </div>
   </div>
-  <!-- <ng-container *ngIf="licencia.licencia" >
-  <div class="row"  *ngFor="let lic of licencia.licencia; let i=index">
-    <div class="col-1"> {{ i+ 1 }} </div>
-    <div class="col-3"> {{ lic.fechainicio }} </div>
-    <div class="col-3"> {{ lic.fechafin }} </div>
-    <div class="col-4"> {{ lic.documento }} </div>
-
-  </div>
-  </ng-container> -->
   <div class="row">
     <div class="col-8"></div>
     <div class="col-4">
@@ -63,66 +45,38 @@
     [state]="'default'"
     [top]="10"
     >
-    <app-nueva-licencia [licenciaId]="licencia.id" [licencias]="licencia.licencia"></app-nueva-licencia>
-
+    <app-nueva-licencia
+      [licenciaId]="licencia.id"
+      [licencias]="licencia.licencia"
+      (cierraEdicionLicencia)="cierraModalLicencia($event)"
+      ></app-nueva-licencia>
     </kendo-window>
-    <!-- ESPECIAL -->
     <div class="panelbar-wrapper">
-
       <kendo-panelbar *ngIf="licencia?.licencia">
         <kendo-panelbar-item *ngFor="let lic of licencia.licencia; let i=index" title="">
           <ng-template kendoPanelBarItemTitle>
             <span [class]="([lic.fechainicio, lic.fechafin] | claselicencia) + ' k-icon'"></span>
              {{ [lic.fechainicio, lic.fechafin] | titulolicencia}}
         </ng-template>
-
-
-        <!--  -->
-
         <ng-template kendoPanelBarContent>
       <single-licencia  [licencia]="lic"></single-licencia>
     </ng-template>
         </kendo-panelbar-item>
     </kendo-panelbar>
-      <!-- <kendo-panelbar *ngIf="licencia.licencia">
-          <kendo-panelbar-item
-          *ngFor="let lic of licencia.licencia; let i=index"
-          [title]="!lic.fechafin ?  'Vigencia indefinida' : 'Vencimiento licencia: '+ (lic.fechafin.toDate() | fechamoment:'MMMM d, y')"
-          class="{{(!lic.fechafin) ? 'vigente' : (((lic.fechafin.toDate() | fechamoment:'MMMM d, y') > 0) ? 'vigente' : 'vencida' )}}"
-          >
-              <ng-template kendoPanelBarContent>
-                <div class="col-12"> {{ i+ 1 }} </div>
-                <p *ngIf="lic.fechafin">
-                  Días: {{  (lic.fechafin.toDate().getTime() - lic.fechainicio.toDate().getTime())/(1000*60*60*24)  }}
-                </p>
-                <div class="col-12"> {{ lic.fechainicio.toDate() | date:'MMMM d, y' }} </div>
-                <div class="col-12" *ngIf="lic.fechafin" > {{ lic.fechafin.toDate() | date:'MMMM d, y' }} </div>
-                <div *ngIf="lic.fechafin"> {{ lic.fechafin.toDate() | fechamoment:'MMMM d, y' }} </div>
-                <div class="col-12"> {{ lic.documento }} </div>
-                <div *ngIf="lic.soportes">
-                  <span *ngFor="let item of lic.soportes">
-                    <a [href]="'https://maguare.gov.co/wp-content/plugins/licencias-maguare/uploads/' + item.archivo" target="_blank">
-                    {{ item.descripcion }} </a>
-                  </span>
-                </div>
-                <pre>
-                  {{ lic | json }}
-                </pre>
+  </div>
+  <div *ngFor="let lic of licencia.licencia">
+    <button class="k-button" (click)="pdf.saveAs('invoice.pdf')">  Save As PDF...</button>
 
-              </ng-template>
-          </kendo-panelbar-item>
+<div style="position: absolute; left: -100000px; top: 0;">
+  <kendo-pdf-export #pdf paperSize="Letter" margin="1cm" [imageResolution]="'36 dpi'" >
+  la li le la
+  <p>
+    {{ lic | json}}
+  </p>
+</kendo-pdf-export>
+</div>
 
-      </kendo-panelbar> -->
+
   </div>
 
 
-  </kendo-pdf-export>
-  <!-- <ng-container *ngIf="licencia.licencia" >
-    <div class="row"  *ngFor="let lic of licencia.licencia; let i=index">
-      <div class="col-1"> {{ i+ 1 }} </div>
-      <div class="col-3"> {{ lic.fechainicio }} </div>
-      <div class="col-3"> {{ lic.fechafin }} </div>
-      <div class="col-4"> {{ lic.documento }} </div>
-
-    </div>
-    </ng-container> -->

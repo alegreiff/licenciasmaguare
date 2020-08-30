@@ -11,6 +11,7 @@ export interface LicenciaContenido {
   estadolicencia?: string,
   id?: string,
   descripcion?: string,
+  totallicencias?: number
 
 }
 
@@ -18,12 +19,18 @@ export interface Ilicencia {
   fechainicio: any,
   fechafin?: any,
   formadeadquisicion?: FormaAdquisicion,
+  obsformaadquisicion?: string,
+  obsderechoslicenciados?: string,
+  obsmodalidadesdeuso?: string,
+  observaciones?: string,
   modalidadesdeuso?: ModalidadesDeUso[],
-  modalidadesdeusootro?: string,
+  //modalidadesdeusootro?: string,
   derechoslicenciados?: DerechosLicenciados[],
-  derechoslicenciadosotro?: string,
+  //derechoslicenciadosotro?: string,
   contacto?: string,
-  soportes?: any[]
+  soportes?: any[],
+  creador?: string
+  total?: number,
 
 }
 export enum DerechosLicenciados {

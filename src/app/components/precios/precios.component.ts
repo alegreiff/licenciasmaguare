@@ -31,8 +31,12 @@ export class PreciosComponent implements OnInit {
       this.modalidades = opciones['derechoslicenciados']
     })
 
-    this.store.select('licencias').subscribe(({ licencias }) => {
-      this.contenidos = licencias;
+    this.store.select('licencias')
+    .subscribe(({ licencias }) => {
+
+      this.contenidos = licencias.filter(lic => lic.totallicencias>0 )
+
+
     });
   }
 

@@ -86,5 +86,9 @@ export class EditarComponent implements OnInit {
         this.modificaDoc()
         this.close();
     }
+    cierraModalLicencia(e: boolean){
+      console.log("CIERRA LA EDICIÓN",e)
+      this.opened = e;
+    }
 }
 //this.db.collection('licencias')

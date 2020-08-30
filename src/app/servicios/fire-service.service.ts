@@ -48,6 +48,9 @@ export class FireServiceService {
       map(docArray => {
         return docArray.map( (doc: any) => {
           let sale = (doc.payload.doc.data()['licencia']).sort((a, b) => b.fechafin - a.fechafin)
+          sale.total = (doc.payload.doc.data()['licencia']).length;
+          let totallicencias= (doc.payload.doc.data()['licencia']).length;
+
 
           /* if(doc.payload.doc.data()['licencia']){
           } */
@@ -57,7 +60,8 @@ export class FireServiceService {
             wpid: doc.payload.doc.data()['wpid'],
             estado: doc.payload.doc.data()['estado'],
             formadeadquisicion: doc.payload.doc.data()['formadeadquisicion'],
-            licencia: sale
+            licencia: sale,
+            totallicencias: totallicencias
           }
         } )
       })

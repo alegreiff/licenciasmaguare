@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducer';
 import { Contacto } from 'src/app/models/contacto.model';
@@ -15,6 +15,13 @@ export class FichacontactoComponent implements OnInit {
   contacto: Contacto
 
   constructor(private store: Store<AppState>) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.store.select('contactos').subscribe(({contactos}) => {
+      this.contacto = contactos.find(contacto => contacto.id === this.idContacto);
+      })
+}
+
 
   ngOnInit(): void {
     this.store.select('contactos').subscribe(({contactos}) => {

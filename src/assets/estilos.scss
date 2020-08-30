@@ -18,7 +18,10 @@ kendo-panelbar-item.vencida span.k-header{
 kendo-textbox-container{
   width: 100%;
   }
-
+textarea.k-textarea {
+  width: 100%;
+  border: 1px rgb(107, 196, 255) solid;
+}
 kendo-textbox-container.repetible{
   display: flex;
   flex-direction: row;
@@ -89,3 +92,4 @@ button.nohay{
   margin: 0.2em;
 
 }
+.observaciones span {font-size: 0.8em; display: block; position: relative; }

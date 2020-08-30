@@ -2,6 +2,7 @@
 
   <div>
     <p>Forma de adquisición: <strong> {{ licencia.formadeadquisicion }} </strong></p>
+    <observacioneslicencia [texto]="licencia.obsformaadquisicion" [titulo]="'forma de adquisición'" ></observacioneslicencia>
     <button kendoButton [icon]="'calendar'"></button> Fecha de inicio: {{ licencia.fechainicio.toDate() | date:'MMMM d, y' }}
 
     <span *ngIf="licencia.fechafin; else sinFinal"><button kendoButton [icon]="'calendar'"></button> Fecha de finalización: {{ licencia.fechafin.toDate() | date:'MMMM d, y' }}</span>
@@ -16,12 +17,15 @@
         Modalidades de uso:
           <span class="spanmodalidades" *ngFor="let modal of licencia.modalidadesdeuso"> {{ modal }} </span>
       </div>
+      <!-- <div class="observaciones"> {{ licencia.obsmodalidadesdeuso }} </div> -->
+      <observacioneslicencia [texto]="licencia.obsmodalidadesdeuso" [titulo]="'modalidades de uso'" ></observacioneslicencia>
       <ng-template #noModalidades><button class="nohay" kendoButton [disabled]="true">Sin modalidades de uso</button></ng-template>
 
       <div *ngIf="licencia.derechoslicenciados; else noDerechos ">
         Derechos licenciados:
           <span class="spanderechos" *ngFor="let derecho of licencia.derechoslicenciados"> {{ derecho }} </span>
       </div>
+      <observacioneslicencia [texto]="licencia.obsderechoslicenciados" [titulo]="'derechos licenciados'" ></observacioneslicencia>
       <ng-template #noDerechos><button class="nohay" kendoButton [disabled]="true">Sin derechos licenciados</button></ng-template>
 
     </div>
@@ -29,7 +33,8 @@
 
   <anexos *ngIf="licencia.soportes.length; else noSoportes" [soportes]="licencia.soportes"></anexos>
 <ng-template #noSoportes><button class="nohay" kendoButton [disabled]="true">No hay soportes cargados</button></ng-template>
-
+<observacioneslicencia [texto]="licencia.observaciones" [titulo]="'generales'" ></observacioneslicencia>
+<p>Actualizado: {{ licencia.creador }} </p>
 
 </div>
 

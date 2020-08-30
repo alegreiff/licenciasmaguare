@@ -37,7 +37,6 @@ import { NuevaLicenciaComponent } from './components/licencias/nueva-licencia.co
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { MinicontactoComponent } from './components/contactos/minicontacto.component';
 import { ContactosComponent } from './components/contactos/contactos.component';
 import { NuevoeditarcontactoComponent } from './components/contactos/nuevoeditarcontacto.component';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -50,6 +49,7 @@ import { LicenciaComponent } from './components/presentacion/licencia.component'
 import { ClaselicenciaPipe } from './pipes/claselicencia.pipe';
 import { FichacontactoComponent } from './components/presentacion/fichacontacto.component';
 import { DocanexosComponent } from './components/presentacion/docanexos.component';
+import { ObservacionesComponent } from './components/presentacion/observaciones.component';
 
 
 
@@ -75,7 +75,6 @@ import { DocanexosComponent } from './components/presentacion/docanexos.componen
     ContenidoComponent,
     EditarComponent,
     NuevaLicenciaComponent,
-    MinicontactoComponent,
     ContactosComponent,
     NuevoeditarcontactoComponent,
     MomentPipe,
@@ -83,7 +82,8 @@ import { DocanexosComponent } from './components/presentacion/docanexos.componen
     LicenciaComponent,
     ClaselicenciaPipe,
     FichacontactoComponent,
-    DocanexosComponent
+    DocanexosComponent,
+    ObservacionesComponent
   ],
   imports: [
     BrowserModule,
