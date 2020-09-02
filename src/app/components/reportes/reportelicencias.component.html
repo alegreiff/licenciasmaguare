@@ -1,14 +1,47 @@
 <div class="row">
   <div class="col-12">
-    <pre>
-      {{ modalidades | json }}
-    </pre>
-    <p>MODS</p>
-    <hr>
-    <h2>Reporte de contenidos con licencia</h2>
+    <h2>Reporte de Licencias</h2>
   </div>
   <div class="col-12">
+
     <kendo-grid
+      [kendoGridBinding]="licenciasDisponibles"
+      [pageSize]="20"
+      [pageable]="true"
+      [sortable]="true"
+      [filterable]="true"
+    >
+    <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
+      <kendo-grid-column field="id" [width]="50" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <button
+            class="btn-sm btn btn-primary"
+
+          >
+            Editar
+          </button>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="licencia.fechainicio" [width]="90" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <span>{{ dataItem.licencia.fechainicio.toDate() | date:'MMMM d, y' }}</span>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="licencia.fechafin" [width]="90" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <span *ngIf="dataItem.licencia.fechafin">{{ dataItem.licencia.fechafin.toDate() | date:'MMMM d, y' }}</span>
+          <span *ngIf="!dataItem.licencia.fechafin">saecula saeculorum</span>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="nombre" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <span> {{ dataItem.nombre}} - <strong>{{ dataItem.tipo }}</strong>  </span>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
+    </kendo-grid>
+
+    <!-- <kendo-grid
       [kendoGridBinding]="contenidos"
       [pageSize]="900"
       [pageable]="false"
@@ -37,7 +70,7 @@
       <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
       <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
       <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
-    </kendo-grid>
+    </kendo-grid> -->
   </div>
 </div>
 <div class="row">
@@ -72,7 +105,33 @@
 
 
 </div>
-<pre>
+<!-- <pre>
 {{ contenidos | json }}
 
+</pre> -->
+<pre>
+  {{ licenciasDisponibles[0] | json}}
 </pre>
+<button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
+
+        <kendo-excelexport [data]="data" [collapsible]="true" fileName="Products.xlsx" #excelexport>
+            <kendo-excelexport-column field="nombre" [locked]="true" title="CONTENIDO" [width]="400"></kendo-excelexport-column>
+            <kendo-excelexport-column field="tipo" [locked]="true" title="TIPO" [width]="50"></kendo-excelexport-column>
+            <kendo-excelexport-column field="licencia.contacto" [hidden]="true">
+              <ng-template kendoExcelExportGroupHeaderTemplate let-value="value">
+                  Category: {{ value }}
+              </ng-template>
+          </kendo-excelexport-column>
+            <kendo-excelexport-column field="licencia.contacto" [locked]="true" title="FECHA INICIO" [width]="200"></kendo-excelexport-column>
+            <kendo-excelexport-column field="licencia.fechainicio" title="FECHA" [width]="200">
+
+              <ng-template  kendoExcelExportGroupHeaderTemplate let-value="value">
+                {{ value.length }}
+
+            </ng-template>
+            </kendo-excelexport-column>
+
+
+      </kendo-excelexport>
+
+

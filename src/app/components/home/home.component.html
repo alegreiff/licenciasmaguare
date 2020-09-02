@@ -9,4 +9,19 @@
       <h5>Jaime de Greiff</h5>
     </div>
   </div>
+  <div class="row">
+    <div class="col-5">
+      <kendo-switch
+          [(ngModel)]="checked"
+          [onLabel]="'0'"
+          [offLabel]="'$'"
+        ></kendo-switch>
+        <hr>
+
+      <button kendoButton [icon]="'minus-outline'" type="button" (click)="setEstado('jaime')" >SI</button>
+      <button kendoButton [icon]="'plus-outline'" type="button" (click)="setEstado('biko')">NO</button>
+
+      {{ statttus | async }}
+    </div>
+  </div>
 </div>

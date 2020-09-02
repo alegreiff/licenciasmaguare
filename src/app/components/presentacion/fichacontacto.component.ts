@@ -7,26 +7,32 @@ import { Contacto } from 'src/app/models/contacto.model';
   selector: 'contactomaguare',
   templateUrl: './fichacontacto.component.html',
   styles: [
-    `kendo-card{ margin-top: 0.5em;}`
-  ]
+    `
+      kendo-card {
+        margin-top: 0.5em;
+      }
+    `,
+  ],
 })
 export class FichacontactoComponent implements OnInit {
-@Input() idContacto: string;
-  contacto: Contacto
+  @Input() idContacto: string;
+  contacto: Contacto;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.store.select('contactos').subscribe(({contactos}) => {
-      this.contacto = contactos.find(contacto => contacto.id === this.idContacto);
-      })
-}
-
-
-  ngOnInit(): void {
-    this.store.select('contactos').subscribe(({contactos}) => {
-    this.contacto = contactos.find(contacto => contacto.id === this.idContacto);
-    })
+    this.store.select('contactos').subscribe(({ contactos }) => {
+      this.contacto = contactos.find(
+        (contacto) => contacto.id === this.idContacto
+      );
+    });
   }
 
+  ngOnInit(): void {
+    this.store.select('contactos').subscribe(({ contactos }) => {
+      this.contacto = contactos.find(
+        (contacto) => contacto.id === this.idContacto
+      );
+    });
+  }
 }

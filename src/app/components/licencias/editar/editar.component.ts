@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { WindowState } from '@progress/kendo-angular-dialog';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AppState } from 'src/app/app.reducer';
+import { DialogService, DialogRef, DialogCloseResult } from '@progress/kendo-angular-dialog';
 import {
   FormaAdquisicion,
   LicenciaContenido,
@@ -12,6 +13,7 @@ import { EntradaWP } from 'src/app/models/entrada.model';
 import { WordpressService } from 'src/app/servicios/wordpress.service';
 import * as moment from 'moment';
 import 'moment/locale/es';
+import { UtilidadesService } from 'src/app/servicios/utilidades.service';
 
 @Component({
   selector: 'app-editar',
@@ -29,7 +31,9 @@ export class EditarComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private db: AngularFirestore,
-    private wser: WordpressService
+    private wser: WordpressService,
+    private dialogService: DialogService,
+    private utils: UtilidadesService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +82,7 @@ export class EditarComponent implements OnInit {
     }
 
     public open() {
+      this.utils.setLicenciaEditada=[null, null]
       this.opened = true;
     }
 
@@ -89,6 +94,32 @@ export class EditarComponent implements OnInit {
     cierraModalLicencia(e: boolean){
       console.log("CIERRA LA EDICIÓN",e)
       this.opened = e;
+      this.showConfirmation()
+    }
+    public result;
+
+    public showConfirmation() {
+        const dialog: DialogRef = this.dialogService.open({
+            title: 'Licencia guardada correctamente',
+            content: this.licencia.titulo + ' (' + this.entradaActiva.tipo + ')',
+            actions: [
+                { text: 'Cerrar' },
+            ],
+            width: 450,
+            height: 200,
+            minWidth: 250
+        });
+
+        dialog.result.subscribe((result) => {
+
+        });
+    }
+    editarlicencia(e){
+      console.log("Editando, maestro", e)
+      const contenidoId= e[0]
+      const indice = e[1]
+      this.utils.setLicenciaEditada=[contenidoId, indice]
+      this.opened = true;
     }
 }
 //this.db.collection('licencias')

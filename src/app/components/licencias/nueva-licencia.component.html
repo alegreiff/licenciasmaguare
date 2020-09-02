@@ -54,12 +54,40 @@
 
             </div>
           </div>
+
+
+          <div class="form-group row" *ngIf="formulario.value.formaadquisicion?.value === 'Compra'">
+            <label class="col-4 col-form-label">Valor</label>
+            <div class="col-8">
+              <kendo-numerictextbox
+              [format]="formatOptions"
+            [min]="0"
+
+            formControlName="valor"
+        ></kendo-numerictextbox>
+
+        <span style="margin-left: 2em; font-size: 1.2rem"
+        [class]='formulario.value.valor  > 0 ? "badge badge-primary" : "badge badge-info"'>
+        {{ formulario.value.valor > 0 ? "Oneroso" : "Gratuito" }}
+      </span>
+
+
+
+
+
+            </div>
+          </div>
+
+
+
+
+
           <div class="form-group row">
             <label class="col-4 col-form-label">Modalidades de uso</label>
             <div class="col-8">
               <kendo-multiselect
                 [data]="modalidades"
-                formControlName="modalidadesuso"
+                formControlName="modalidadesdeuso"
               ></kendo-multiselect>
             </div>
           </div>
@@ -178,9 +206,15 @@
     </form>
   </div>
 </div>
+<pre style="background: pink;" *ngIf="licenciaEditada">
+  {{ licenciaEditada | json }}
+
+</pre>
 <pre>
   {{ formulario.value | json }}
 </pre>
+
+
 
 <div class="col-12">
   <kendo-dialog
@@ -196,3 +230,7 @@
     ></app-nuevoeditarcontacto>
   </kendo-dialog>
 </div>
+
+
+
+

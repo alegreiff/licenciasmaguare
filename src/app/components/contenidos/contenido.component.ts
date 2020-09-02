@@ -77,6 +77,7 @@ existeEnLicencias: boolean = false;
     wpid: this.entradawp.wpid,
     titulo: this.entradawp.titulo,
     estado: EstadoContenido[this.entradawp.status],
+    tipo: this.entradawp.tipo,
     licencia: [
     ]
   }

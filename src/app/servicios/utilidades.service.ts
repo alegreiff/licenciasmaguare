@@ -6,7 +6,17 @@ import { exit } from 'process';
 })
 export class UtilidadesService {
 
+  private licenciaeditada: [string, number]
+
   constructor() { }
+
+  set setLicenciaEditada( [contenidoId, indice] ){
+    console.log('LLEGA', [contenidoId, indice])
+    this.licenciaeditada = [contenidoId, indice]
+  }
+  get getLicenciaEditada(): [string, number]{
+    return this.licenciaeditada;
+  }
 
     enumToSelect(elementos: any[], etiqueta: string) : any[] {
       console.log("leselementon", elementos)

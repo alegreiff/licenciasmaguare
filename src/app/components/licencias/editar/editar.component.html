@@ -38,7 +38,8 @@
   <hr>
 </div>
     <div class="k-overlay" *ngIf="opened"></div>
-    <kendo-window [title]="'Licencia nueva: ' + licencia.titulo + ' (' + entradaActiva.tipo + ')'"
+    <kendo-window
+    [title]="'Licencia nueva: ' + licencia.titulo + ' (' + entradaActiva.tipo + ')'"
     *ngIf="opened" (close)="close()"
     [width]="800"
     [resizable]="false"
@@ -48,10 +49,12 @@
     <app-nueva-licencia
       [licenciaId]="licencia.id"
       [licencias]="licencia.licencia"
+      [nombreContenido]="licencia.titulo + ' (' + entradaActiva.tipo + ')'"
       (cierraEdicionLicencia)="cierraModalLicencia($event)"
       ></app-nueva-licencia>
     </kendo-window>
-    <div class="panelbar-wrapper">
+
+    <!-- <div class="panelbar-wrapper"> -->
       <kendo-panelbar *ngIf="licencia?.licencia">
         <kendo-panelbar-item *ngFor="let lic of licencia.licencia; let i=index" title="">
           <ng-template kendoPanelBarItemTitle>
@@ -59,12 +62,24 @@
              {{ [lic.fechainicio, lic.fechafin] | titulolicencia}}
         </ng-template>
         <ng-template kendoPanelBarContent>
-      <single-licencia  [licencia]="lic"></single-licencia>
+      <single-licencia
+      [licencia]="lic"
+      [indice]="i"
+      [contenidoId]="licencia.id"
+      (editacontenido)="editarlicencia($event)"
+
+
+      >
+    </single-licencia>
     </ng-template>
         </kendo-panelbar-item>
     </kendo-panelbar>
-  </div>
+  <!-- </div> -->
+  <button (click)="showConfirmation()">  TEST</button>
+  <div kendoDialogContainer></div>
+
   <div *ngFor="let lic of licencia.licencia">
+
     <button class="k-button" (click)="pdf.saveAs('invoice.pdf')">  Save As PDF...</button>
 
 <div style="position: absolute; left: -100000px; top: 0;">
@@ -79,4 +94,6 @@
 
   </div>
 
-
+<pre>
+  {{ licencia |json }}
+</pre>

@@ -15,7 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
 
-registerLocaleData(localeES, 'es-ES');
+registerLocaleData(localeES, 'es-CO');
 
 //STORE
 
@@ -51,6 +51,8 @@ import { FichacontactoComponent } from './components/presentacion/fichacontacto.
 import { DocanexosComponent } from './components/presentacion/docanexos.component';
 import { ObservacionesComponent } from './components/presentacion/observaciones.component';
 import { ReporteLicenciasComponent } from './components/reportes/reportelicencias.component';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
+
 
 
 
@@ -109,10 +111,11 @@ import { ReporteLicenciasComponent } from './components/reportes/reportelicencia
     IntlModule,
     LayoutModule,
     PDFExportModule,
-    UploadsModule
+    UploadsModule,
+    ExcelExportModule
 
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'es-ES'}],
+  providers: [{provide: LOCALE_ID, useValue: 'es-CO'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

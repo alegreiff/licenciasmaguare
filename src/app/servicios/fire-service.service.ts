@@ -60,6 +60,7 @@ export class FireServiceService {
             wpid: doc.payload.doc.data()['wpid'],
             estado: doc.payload.doc.data()['estado'],
             formadeadquisicion: doc.payload.doc.data()['formadeadquisicion'],
+            tipo: doc.payload.doc.data()['tipo'],
             licencia: sale,
             totallicencias: totallicencias
           }
