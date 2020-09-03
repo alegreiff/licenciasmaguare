@@ -152,6 +152,15 @@ testbackend(){
     });
   }
 
+  borraAnexo(id: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.userToken,
+    });
+    return this.http.get(`${this.urlbase}apimagu/v2/borraanexo/${id}`, {
+      headers: headers,
+    });
+  }
 
   existeEnFirebase(items: WPrest[]) {
     for (let lic of this.licencias) {

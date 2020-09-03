@@ -148,6 +148,14 @@
 
 
           <div style="border: 2px crimson solid; padding: 1em;">
+
+            <div class="editaSoportes" *ngIf="temporalSoportes">
+              <div *ngFor="let soporte of temporalSoportes; let i = index">
+                <span> {{ i }} ::  {{ soporte.descripcion }} -- {{ soporte.archivo }} </span>
+                <button kendoButton (click)="removerSoporteEditado(i)" type="button"> Borrar </button>
+              </div>
+            </div>
+
             <button kendoButton type="button" (click)="agregaSoportes()">Agregar nuevo soporte</button>
             <div class="form-group" *ngFor="let item of getSopps.controls; let i = index">
               <ng-container [formGroup]="item">
@@ -206,13 +214,16 @@
     </form>
   </div>
 </div>
+<pre style="background: powderblue;" *ngIf="lossoportes">
+  {{ lossoportes | json }}
+</pre>
 <pre style="background: pink;" *ngIf="licenciaEditada">
   {{ licenciaEditada | json }}
 
 </pre>
-<pre>
+<!-- <pre>
   {{ formulario.value | json }}
-</pre>
+</pre> -->
 
 
 
@@ -229,7 +240,25 @@
       (cierraModal)="cerrar($event)"
     ></app-nuevoeditarcontacto>
   </kendo-dialog>
+
+  <kendo-dialog *ngIf="confirmaBorrarAnexo">
+    <kendo-dialog-titlebar>
+      <div style="font-size: 18px; line-height: 1.3em;">
+        <span class="k-icon k-i-warning"></span> Confirmación - ¿Borrar el anexo?
+      </div>
+    </kendo-dialog-titlebar>
+    <p style="margin: 30px; text-align: center;">El adjunto <strong>{{ temporalSoportes[anexoborrable]['descripcion']}}</strong>
+      será eliminado así usted cancele la edición de la licencia</p>
+
+    <kendo-dialog-actions [layout]="actionsLayout">
+      <button kendoButton (click)="onDialogClose()">Cancelar</button>
+      <button kendoButton (click)="onDeleteData()" primary="true">Borrar</button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+
+
 </div>
+
 
 
 

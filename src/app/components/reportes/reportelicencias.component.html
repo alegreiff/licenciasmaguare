@@ -1,115 +1,127 @@
-<div class="row">
-  <div class="col-12">
-    <h2>Reporte de Licencias</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info" role="alert">
+        Reporte de licencias
+      </div>
+    </div>
   </div>
-  <div class="col-12">
+  <div class="row">
 
-    <kendo-grid
-      [kendoGridBinding]="licenciasDisponibles"
-      [pageSize]="20"
-      [pageable]="true"
-      [sortable]="true"
-      [filterable]="true"
-    >
-    <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
-      <kendo-grid-column field="id" [width]="50" [filterable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <button
-            class="btn-sm btn btn-primary"
+    <div class="col-12">
 
-          >
-            Editar
-          </button>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="licencia.fechainicio" [width]="90" [filterable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <span>{{ dataItem.licencia.fechainicio.toDate() | date:'MMMM d, y' }}</span>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="licencia.fechafin" [width]="90" [filterable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <span *ngIf="dataItem.licencia.fechafin">{{ dataItem.licencia.fechafin.toDate() | date:'MMMM d, y' }}</span>
-          <span *ngIf="!dataItem.licencia.fechafin">saecula saeculorum</span>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="nombre" [width]="200">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <span> {{ dataItem.nombre}} - <strong>{{ dataItem.tipo }}</strong>  </span>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
-    </kendo-grid>
+      <kendo-grid
+        [kendoGridBinding]="licenciasDisponibles"
+        [pageSize]="20"
+        [pageable]="true"
+        [sortable]="true"
+        [filterable]="true"
+      >
+      <!-- <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column> -->
+        <kendo-grid-column field="id" [width]="120" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <button
+            kendoButton  [look]="'outline'" [primary]="true" (click)="editarlicencia(dataItem.wpid)"
 
-    <!-- <kendo-grid
-      [kendoGridBinding]="contenidos"
-      [pageSize]="900"
-      [pageable]="false"
-      [sortable]="true"
-      [filterable]="true"
-    >
-    <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
-      <kendo-grid-column field="id" [width]="50" [filterable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <button
-            class="btn-sm btn btn-primary"
-            (click)="editarlicencia(dataItem.wpid)"
-          >
-            Editar
-          </button>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="licencia" [width]="90" [filterable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          {{ dataItem.licencia[0].fechainicio.toDate() | date:'MMMM d, y' }}
-        </ng-template>
-      </kendo-grid-column>
+            >
+              Ver licencia
+            </button>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column  title="Fecha inicio" field="licencia.fechainicio" [width]="90" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <span>{{ dataItem.licencia.fechainicio.toDate() | date:'MMMM d, y' }}</span>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Fecha fin" field="licencia.fechafin" [width]="90" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <span *ngIf="dataItem.licencia.fechafin">{{ dataItem.licencia.fechafin.toDate() | date:'MMMM d, y' }}</span>
+            <span *ngIf="!dataItem.licencia.fechafin">Indefinida</span>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Nombre - tipo" field="nombre" [width]="200">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <span> {{ dataItem.nombre}} - <strong>{{ dataItem.tipo }}</strong>  </span>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="estado" [width]="60" [filterable]="false"></kendo-grid-column>
+      </kendo-grid>
+
+      <!-- <kendo-grid
+        [kendoGridBinding]="contenidos"
+        [pageSize]="900"
+        [pageable]="false"
+        [sortable]="true"
+        [filterable]="true"
+      >
+      <kendo-grid-column field="id" [width]="65" [filterable]="false"></kendo-grid-column>
+        <kendo-grid-column field="id" [width]="50" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <button
+              class="btn-sm btn btn-primary"
+              (click)="editarlicencia(dataItem.wpid)"
+            >
+              Editar
+            </button>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="licencia" [width]="90" [filterable]="false">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            {{ dataItem.licencia[0].fechainicio.toDate() | date:'MMMM d, y' }}
+          </ng-template>
+        </kendo-grid-column>
 
 
-      <kendo-grid-column field="totallicencias" [width]="40"></kendo-grid-column>
-      <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
-      <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
-      <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
-    </kendo-grid> -->
+        <kendo-grid-column field="totallicencias" [width]="40"></kendo-grid-column>
+        <kendo-grid-column field="wpid" [width]="40"></kendo-grid-column>
+        <kendo-grid-column field="titulo" [width]="200"></kendo-grid-column>
+        <kendo-grid-column field="estado" [width]="60"></kendo-grid-column>
+      </kendo-grid> -->
+    </div>
+  </div>
+  <div class="row">
+
+    <!-- <div class="example-wrapper">
+      <button kendoButton *ngIf="!opened" (click)="open()">Open window</button>
+      <p *ngIf="dataSaved">Data has been saved</p>
+      <kendo-window title="Please provide additional data" *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450">
+
+      <form class="k-form">
+          <fieldset>
+              <legend>User Details</legend>
+
+              <label class="k-form-field">
+                  <span>First Name</span>
+                  <input class="k-textbox" placeholder="Your Name" />
+              </label>
+              <label class="k-form-field">
+                  <span>Last Name</span>
+                  <input class="k-textbox" placeholder="Your Last Name" />
+              </label>
+          </fieldset>
+
+          <div class="text-right">
+              <button type="button" class="k-button" (click)="close()">Cancel</button>
+              <button type="button" class="k-button k-primary" (click)="submit()">Submit</button>
+          </div>
+      </form>
+
+      </kendo-window>
+    </div> -->
+
+
   </div>
 </div>
-<div class="row">
 
-  <div class="example-wrapper">
-    <button kendoButton *ngIf="!opened" (click)="open()">Open window</button>
-    <p *ngIf="dataSaved">Data has been saved</p>
-    <kendo-window title="Please provide additional data" *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450">
+<!-- <pre>
+  {{ licenciasDisponibles | json}}
+</pre> -->
 
-    <form class="k-form">
-        <fieldset>
-            <legend>User Details</legend>
-
-            <label class="k-form-field">
-                <span>First Name</span>
-                <input class="k-textbox" placeholder="Your Name" />
-            </label>
-            <label class="k-form-field">
-                <span>Last Name</span>
-                <input class="k-textbox" placeholder="Your Last Name" />
-            </label>
-        </fieldset>
-
-        <div class="text-right">
-            <button type="button" class="k-button" (click)="close()">Cancel</button>
-            <button type="button" class="k-button k-primary" (click)="submit()">Submit</button>
-        </div>
-    </form>
-
-    </kendo-window>
-  </div>
-
-
-</div>
 <!-- <pre>
 {{ contenidos | json }}
 
 </pre> -->
-<pre>
+<!-- <pre>
   {{ licenciasDisponibles[0] | json}}
 </pre>
 <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
@@ -133,5 +145,5 @@
 
 
       </kendo-excelexport>
-
+ -->
 

@@ -35,12 +35,15 @@ export class NuevaLicenciaComponent implements OnInit {
   formulario: FormGroup;
   licenciaNueva: Partial<LicenciaContenido>;
   licenciaEditada: Partial<Ilicencia>;
+  temporalSoportes: any[] = [];
   formadeadquisicion: any[];
   contactoslist: any[];
   contactos: Contacto[];
   contacto: string;
   activecontacto: string;
   opened = false;
+  confirmaBorrarAnexo = false;
+  anexoborrable: number
   public myFiles: Array<any>;
   restriccionesUpload: FileRestrictions = {
     allowedExtensions: ['jpg', 'pdf', 'png'],
@@ -80,6 +83,7 @@ export class NuevaLicenciaComponent implements OnInit {
         //console.log("LLLLK", licencia)
         //console.log("LLLLK", licencia.licencia[licenciaIndice])
         this.licenciaEditada = licencia.licencia[licenciaIndice]
+        this.temporalSoportes = [ ...this.licenciaEditada.soportes ];
       })
     }
 
@@ -194,6 +198,7 @@ export class NuevaLicenciaComponent implements OnInit {
     forkJoin(calls).subscribe(() => {
       console.log('SII', soportesdb);
       this.lossoportes = soportesdb;
+      this.revisaSoportes(soportesdb);
       this.modificaDoc();
     });
   }
@@ -203,9 +208,7 @@ export class NuevaLicenciaComponent implements OnInit {
     console.log("REFERENCIA", this.utils.getLicenciaEditada[1])
     if(this.utils.getLicenciaEditada[1]>=0){
       salvado.splice(this.utils.getLicenciaEditada[1], 1)
-      console.log("DESPUÉS DE ",salvado.length)
-    }else{
-
+      console.log("DESPUÉS DE ", salvado.length)
     }
 
     let updatedlicencia = [
@@ -220,7 +223,7 @@ export class NuevaLicenciaComponent implements OnInit {
         observaciones: this.formulario.value.observaciones,
         modalidadesdeuso: this.formulario.value.modalidadesdeuso,
         contacto: this.contacto,
-        soportes: this.lossoportes,
+        soportes: this.revisaSoportes(this.lossoportes),
         derechoslicenciados: this.formulario.value.derechoslicenciados,
         creador: this.usuarioactivo,
         valor: this.formulario.value.valor
@@ -246,5 +249,44 @@ export class NuevaLicenciaComponent implements OnInit {
   }
   cancelaEdicion(){
     this.cierraEdicionLicencia.emit(false)
+  }
+  revisaSoportes(soportes){
+    let salida = [];
+    if(this.utils.getLicenciaEditada[1]>=0){
+      if(this.temporalSoportes.length > 0){
+        salida = soportes.concat(this.temporalSoportes)
+      }else{
+        salida = soportes;
+      }
+    }
+    console.log("lessoportèes", soportes)
+    console.log("lesNouvellesSoportèes", salida)
+    return salida;
+  }
+  removerSoporteEditado(id: number){
+    this.anexoborrable = id;
+    this.confirmaBorrarAnexo = true;
+  }
+  public actionsLayout: string = 'normal';
+
+    public onDialogClose() {
+        this.confirmaBorrarAnexo = false
+        this.anexoborrable = null;
+    }
+
+    public onDeleteData() {
+        this.borraSoporteEditado()
+    }
+  borraSoporteEditado(){
+    const id = this.anexoborrable
+    this.ws.borraAnexo(this.temporalSoportes[id]['archivo']).subscribe((e) => {
+      if(e['estado'] === true){
+        this.temporalSoportes.splice(id, 1)
+        this.confirmaBorrarAnexo = false
+        this.anexoborrable = null;
+      }else{
+        console.info("La hemos cagado Jimmy")
+      }
+    })
   }
 }

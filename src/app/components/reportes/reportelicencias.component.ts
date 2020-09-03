@@ -43,7 +43,7 @@ export class ReporteLicenciasComponent implements OnInit {
       for( let lic of this.contenidos){
         for(let li of lic.licencia){
 
-          sale.push({licencia: li, nombre: lic.titulo, tipo: lic.tipo, id: lic.id, numerolicencias: lic.totallicencias, estado: lic.estado})
+          sale.push({licencia: li, nombre: lic.titulo, tipo: lic.tipo, id: lic.id, numerolicencias: lic.totallicencias, estado: lic.estado, wpid: lic.wpid})
         }
       }
       console.log("SALE", sale)
@@ -57,8 +57,11 @@ export class ReporteLicenciasComponent implements OnInit {
   }
 
   editarlicencia(id: string) {
+    console.log("NTT")
     this.router.navigate(['/contenido', id]);
   }
+
+
 
   public opened = false;
     public dataSaved = false;

@@ -1,6 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
+      <div class="alert alert-info" role="alert">
+        Lista de licenciantes
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-12">
       <button kendoButton [primary]="true" icon="user" (click)="open('')">Crear nuevo contacto</button>
       <kendo-grid
         [kendoGridBinding]="contactos"

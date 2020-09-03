@@ -1,5 +1,5 @@
 <div class="licencia">
-  <button kendoButton [primary]="true" (click)="edita(contenidoId, indice )"> {{ contenidoId }} - {{ indice }}  </button>
+  <button kendoButton  [look]="'outline'" [primary]="true" (click)="edita(contenidoId, indice )"> Editar licencia  </button>
 
   <div>
     <p>Forma de adquisición: <strong> {{ licencia.formadeadquisicion }} </strong></p>
@@ -52,10 +52,10 @@
 <!-- <p *ngIf="licencia.contacto">
   {{ licencia.contacto | json }}
 </p> -->
-<pre>
+<!-- <pre>
   {{ licencia | json }}
 
-</pre>
+</pre> -->
 
 
 
