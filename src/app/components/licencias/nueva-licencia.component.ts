@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AppState } from 'src/app/app.reducer';
@@ -25,11 +25,15 @@ import { WordpressService } from 'src/app/servicios/wordpress.service';
   templateUrl: './nueva-licencia.component.html',
   styles: [],
 })
-export class NuevaLicenciaComponent implements OnInit {
+export class NuevaLicenciaComponent implements OnInit, OnDestroy {
   @Input() licenciaId: string;
   @Input() licencias: Partial<LicenciaContenido>[];
   @Input() nombreContenido: string;
+  @Input() wordpressId: number;
+
   @Output() cierraEdicionLicencia = new EventEmitter<boolean>();
+
+  private fbSubs: Subscription[] = [];
 
 
   formulario: FormGroup;
@@ -60,6 +64,7 @@ export class NuevaLicenciaComponent implements OnInit {
     maximumFractionDigits: 0,
     minimumFractionDigits: 0
 };
+  editlicscence: any;
   constructor(
     private fb: FormBuilder,
     private db: AngularFirestore,
@@ -71,53 +76,57 @@ export class NuevaLicenciaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("LLAMA AL SERVICIO ", this.utils.getLicenciaEditada)
+    //console.log("LLAMA AL SERVICIO ", this.utils.getLicenciaEditada)
+    this.editlicscence = this.utils.getLicenciaEditada;
     if(!this.utils.getLicenciaEditada[0] && !this.utils.getLicenciaEditada[1]){
-      console.log("E una nuova licenza")
+      //console.log("E una nuova licenza")
 
     }else{
+      //console.log("Edita vechia licenza")
       const licenciaId = this.utils.getLicenciaEditada[0]
       const licenciaIndice = this.utils.getLicenciaEditada[1]
-      this.store.select('licencias').subscribe(({licencias}) => {
+      this.fbSubs.push(this.store.select('licencias').subscribe(({licencias}) => {
         const licencia = licencias.find(lic => lic.id === licenciaId)
         //console.log("LLLLK", licencia)
         //console.log("LLLLK", licencia.licencia[licenciaIndice])
         this.licenciaEditada = licencia.licencia[licenciaIndice]
         this.temporalSoportes = [ ...this.licenciaEditada.soportes ];
-      })
+      }))
     }
 
-    this.ws.activo.subscribe((res) => {
-      console.log('ACTIVO', res);
+    this.fbSubs.push(this.ws.activo.subscribe((res) => {
+      //console.log('ACTIVO', res);
 
       this.usuarioactivo = this.ws.usuario;
-    });
-    this.store.select('opciones').subscribe(({ opciones }) => {
+    }));
+
+    this.fbSubs.push(this.store.select('opciones').subscribe(({ opciones }) => {
       this.modalidades = opciones['modalidadesdeuso'];
       this.formaAdquisicion = opciones['formasdeadquisicion'];
       this.derechos = opciones['derechoslicenciados'];
-    });
+    }))
+
 
     this.formadeadquisicion = this.utils.enumToSelect(
       this.formaAdquisicion,
       'Seleccione la forma de adquisición'
     );
 
-    this.store.select('contactos').subscribe(({ contactos }) => {
+    this.fbSubs.push(this.store.select('contactos').subscribe(({ contactos }) => {
       this.contactos = contactos;
       this.contactoslist = this.utils.enumToSelectComplejo(
         contactos,
         'Seleccione el titular o cree uno nuevo'
       );
-      console.log("CONTAKK", this.contactoslist)
-    });
+      //console.log("CONTAKK", this.contactoslist)
+    }));
     this.creaFormulario();
   }
   editaFormadeadquisicion(valor){
-    console.log("SELECTED", this.formadeadquisicion)
-    console.log("SELECTED", valor)
+    //console.log("SELECTED", this.formadeadquisicion)
+    //console.log("SELECTED", valor)
     const indice = (this.formadeadquisicion[1]).findIndex( forma => forma.text === valor )
-    console.log(this.formadeadquisicion[1][indice])
+    //console.log(this.formadeadquisicion[1][indice])
     return this.formadeadquisicion[1][indice]
   }
   editaContacto(valor){
@@ -126,10 +135,10 @@ export class NuevaLicenciaComponent implements OnInit {
     }else{
       console.log('njnjnjn')
     } */
-    console.log("CONTTT", this.contactoslist)
-    console.log("CONTTT", valor)
+    //console.log("CONTTT", this.contactoslist)
+    //console.log("CONTTT", valor)
     const indice = (this.contactoslist[1]).findIndex( contacto => contacto.value === valor )
-    console.log(this.contactoslist[1][indice])
+    //console.log(this.contactoslist[1][indice])
     return this.contactoslist[1][indice]
     //return null
   }
@@ -166,7 +175,7 @@ export class NuevaLicenciaComponent implements OnInit {
   }
 
   guardaLicencia() {
-    console.log(this.formulario.value);
+    //console.log(this.formulario.value);
     if (this.formulario.value.contacto?.value) {
       this.contacto = this.formulario.value.contacto.value;
     } else {
@@ -176,17 +185,17 @@ export class NuevaLicenciaComponent implements OnInit {
     if (this.formulario.value.soportes.length > 0) {
       this.guardaAnexos(this.formulario.value.soportes);
     } else {
-      console.log('SIN ANEXOS');
+      //console.log('SIN ANEXOS');
       this.modificaDoc(); //NO GUARDA
     }
   }
   guardaAnexos(soportes: any) {
-    console.log('Los anexos son: ', soportes);
+    //console.log('Los anexos son: ', soportes);
     const calls = [];
     let soportesdb = [];
     for (let soporte of soportes) {
       calls.push(
-        this.ws.subeSoporte(soporte.archivos[0]).pipe(
+        this.ws.subeSoporte(soporte.archivos[0], this.wordpressId).pipe(
           map((res: any) => {
             const describe = soporte.descripciones;
             soportesdb.push({ archivo: res.archivo, descripcion: describe });
@@ -195,20 +204,25 @@ export class NuevaLicenciaComponent implements OnInit {
         )
       );
     }
-    forkJoin(calls).subscribe(() => {
-      console.log('SII', soportesdb);
+    this.fbSubs.push(forkJoin(calls).subscribe(() => {
+      //console.log('SII', soportesdb);
       this.lossoportes = soportesdb;
       this.revisaSoportes(soportesdb);
       this.modificaDoc();
-    });
+    }));
   }
   modificaDoc() {
     let salvado = [ ...this.licencias ]
-    console.log("ANTES DE ",salvado.length)
-    console.log("REFERENCIA", this.utils.getLicenciaEditada[1])
-    if(this.utils.getLicenciaEditada[1]>=0){
+
+    //console.log("ANTES DE ", salvado.length)
+    //console.log("REFERENCIA", this.utils.getLicenciaEditada[1])
+
+    //console.log("NEUTRO", this.utils.getLicenciaEditada)
+    //console.log("POPOPOPOPOPOPOPOPOPOPOPPOP", this.utils.getLicenciaEditada[1])
+
+    if(Number.isInteger(this.utils.getLicenciaEditada[1])){
       salvado.splice(this.utils.getLicenciaEditada[1], 1)
-      console.log("DESPUÉS DE ", salvado.length)
+      //console.log("SOLO CUANDO ES EDICIÓN DESPUÉS DE ", salvado.length)
     }
 
     let updatedlicencia = [
@@ -230,7 +244,7 @@ export class NuevaLicenciaComponent implements OnInit {
 
       },
     ];
-    console.log(updatedlicencia);
+    //console.log(updatedlicencia);
 
     this.db.collection('licencias').doc(this.licenciaId).update({
       licencia: updatedlicencia,
@@ -238,7 +252,7 @@ export class NuevaLicenciaComponent implements OnInit {
     this.cancelaEdicion();
   }
   contactoCambia(e: any) {
-    console.log('CAMBIO CONTACTO', e);
+   //console.log('CAMBIO CONTACTO', e);
     this.activecontacto = e.value;
   }
   cerrar(e: any) {
@@ -259,8 +273,8 @@ export class NuevaLicenciaComponent implements OnInit {
         salida = soportes;
       }
     }
-    console.log("lessoportèes", soportes)
-    console.log("lesNouvellesSoportèes", salida)
+    //console.log("lessoportèes", soportes)
+    //console.log("lesNouvellesSoportèes", salida)
     return salida;
   }
   removerSoporteEditado(id: number){
@@ -279,14 +293,22 @@ export class NuevaLicenciaComponent implements OnInit {
     }
   borraSoporteEditado(){
     const id = this.anexoborrable
-    this.ws.borraAnexo(this.temporalSoportes[id]['archivo']).subscribe((e) => {
-      if(e['estado'] === true){
+    this.fbSubs.push(this.ws.borraAnexo(this.temporalSoportes[id]['archivo']).subscribe((e) => {
+      if(e['exito'] === true){
         this.temporalSoportes.splice(id, 1)
         this.confirmaBorrarAnexo = false
         this.anexoborrable = null;
       }else{
         console.info("La hemos cagado Jimmy")
       }
-    })
+    }))
   }
+
+  ngOnDestroy(){
+    this.cancelSubscriptions()
+  }
+  cancelSubscriptions() {
+    this.fbSubs.forEach(sub => sub.unsubscribe())
+    console.log("FUERA", this.fbSubs.length + ' <<<')
+}
 }

@@ -1,5 +1,61 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <!-- <a class="navbar-brand" href="#">Licencias <span>Maguaré</span></a> -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" routerLink="/">
+      <img src="assets/mag.png" style="min-height: 40px;">
+    </a>
+
+    <a role="button" (click)="toggleNavbar()" #navBurger class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu" #navMenu>
+    <div class="navbar-start">
+      <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/contenidos">Contenidos</a>
+      <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/reportelicencias">Reporte licencias</a>
+      <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/contactos">Contactos</a>
+
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" >
+          {{ loggueado | json }}
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons" >
+          <a class="button is-primary" routerLink="/ingreso" *ngIf="!loggueado">
+            <strong>Ingresar al sistema</strong>
+          </a>
+          <a class="button is-light" (click)="logout()" *ngIf="loggueado">
+            Cerrar sesión de {{ usuario }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" routerLink="/">
     <img src="assets/mag.png" width="120" height="40" class="d-inline-block align-top" alt="" loading="lazy"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,51 +92,5 @@
 
 
 </div>
-</nav>
-
-
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li> -->
-
-
-
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/home">Licencias Maguaré</a>
-
-  <div class="collapse navbar-collapse" id="navbarText" >
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link"  routerLink="/home">Home </a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf="loggueado">
-        <a class="nav-link" routerLink="/contenidos">Contenidos</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf="loggueado">
-        <a class="nav-link" routerLink="/reportelicencias">Reporte licencias</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf="loggueado">
-        <a class="nav-link" routerLink="/contactos">Contactos</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/protegida">Protegida</a>
-      </li>
-    </ul>
-    <span class="navbar-text" *ngIf="!loggueado">
-      <a class="nav-link" routerLink="/ingreso">Ingreso</a>
-    </span>
-    <span class="navbar-text" *ngIf="loggueado">
-       <a class="nav-link" (click)="logout()">Salida</a>
-    </span>
-<span style="color: yellow"> LOGUEADO: {{ loggueado }} -- USUARIO: {{ usuario }} </span>
-  </div>
 </nav> -->
 

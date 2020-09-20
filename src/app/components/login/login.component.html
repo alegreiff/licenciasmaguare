@@ -1,3 +1,69 @@
+<section class="container">
+  <div class="columns is-multiline">
+    <div class="column is-8 is-offset-2 register">
+      <div class="columns">
+        <div class="column left">
+          <h1 class="title is-2">Licencias Maguaré </h1>
+          <h2 class="subtitle colored is-4">Ingrese con su usuario de Maguaré</h2>
+          <p>--</p>
+        </div>
+        <div class="column right has-text-centered">
+          <h1 class="title is-4">Sign up today</h1>
+          <p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit</p>
+
+          <form autocomplete="off" [formGroup]="forma" (ngSubmit)="ingreso()">
+            <div class="field">
+              <div class="control">
+                <input class="input is-medium" type="text" placeholder="Correo" formControlName="nombre">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <input class="input is-medium" type="password" placeholder="Contraseña" formControlName="contrasena">
+              </div>
+            </div>
+            <button class="button is-block is-primary is-fullwidth is-medium">Ingresar</button>
+            <br />
+            <small><em>Lorem ipsum dolor sit amet consectetur.</em></small>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="column is-8 is-offset-2">
+      <br>
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span> &emsp;
+            <span class="icon">
+              <i class="fab fa-facebook"></i>
+            </span> &emsp;
+            <span class="icon">
+              <i class="fab fa-instagram"></i>
+            </span> &emsp;
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span> &emsp;
+            <span class="icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
+        </div>
+        <div class="level-right">
+          <small class="level-item" style="color: var(--textLight)">
+            &copy; Super Cool Website. All Rights Reserved.
+          </small>
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+
 <h4>Formulario de <small>acceso</small></h4>
 <hr>
 <form autocomplete="off" [formGroup]="forma" (ngSubmit)="ingreso()">
@@ -36,8 +102,8 @@
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
     <div class="input-group col-md-8">
-      <button type="submit" class="btn btn-outline-primary" *ngIf="forma.valid">
-        Guardar
+      <button type="submit" class="button" *ngIf="forma.valid">
+        Ingresar
       </button>
     </div>
   </div>

@@ -6,7 +6,7 @@ import { exit } from 'process';
 })
 export class UtilidadesService {
 
-  private licenciaeditada: [string, number]
+  private licenciaeditada: [string, number] = [null, null]
 
   constructor() { }
 

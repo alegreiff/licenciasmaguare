@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { IntlModule } from '@progress/kendo-angular-intl';
-import '@progress/kendo-angular-intl/locales/de/all';
 import '@progress/kendo-angular-intl/locales/es/all';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,19 +52,6 @@ import { ObservacionesComponent } from './components/presentacion/observaciones.
 import { ReporteLicenciasComponent } from './components/reportes/reportelicencias.component';
 import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,7 +72,8 @@ import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
     ClaselicenciaPipe,
     FichacontactoComponent,
     DocanexosComponent,
-    ObservacionesComponent
+    ObservacionesComponent,
+
   ],
   imports: [
     BrowserModule,

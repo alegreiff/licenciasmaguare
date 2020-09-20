@@ -42,22 +42,22 @@ export class WordpressService {
     return this.http
       .post(`${this.urlbase}jwt-auth/v1/token`, { username, password })
       .pipe(
-        map((resp) => {
+        map((resp:any) => {
           this.fires.cargaOpcionesGenerales();
           this.guardarToken(resp);
-          this.cargaEntradas(resp['token']);
+          this.cargaEntradas(resp.data.token);
           this.setEstado(true);
-          this.testbackend()
+          //this.testbackend()
           return resp;
         })
       );
   }
 
-testbackend(){
+/* testbackend(){
   this.http.get('https://us-central1-licenciasmaguare.cloudfunctions.net/api/contactos/').subscribe(
     res => { console.log("BACKEND", res) }
   )
-}
+} */
 
   logout() {
     this.usuario = null;
@@ -78,11 +78,11 @@ testbackend(){
       .post(`${this.urlbase}jwt-auth/v1/token/validate`, null, {
         headers: headers,
       })
-      .pipe(map((res: any) => res.data.status == 200));
+      .pipe(map((res: any) => res.success));
   }
   private guardarToken(respuesta) {
-    console.log('PERFIL', respuesta.perfil);
-    const token = respuesta.token;
+    //console.log('PERFIL', respuesta.perfil);
+    const token = respuesta.data.token;
     const user = respuesta.perfil.nombre + ' ' + respuesta.perfil.apellido;
     const correo = respuesta.perfil.correo;
     //resp['token']
@@ -115,11 +115,14 @@ testbackend(){
       .select('licencias')
       .subscribe(({ licencias }) => (this.licencias = licencias));
     const headers = new HttpHeaders({
+      /* 'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+      'Pragma': 'no-cache',
+      'Expires': '0', */
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
+      Authorization: 'Bearer ' + token
     });
     return this.http
-      .get(`${this.urlbase}apimagu/v2/test`, { headers: headers })
+      .get(`${this.urlbase}apimagu/v2/test?_cache_buster=${new Date().getTime()}`, { headers: headers })
       .pipe(
         map((res: any) => {
           return res.contenidos.map((contenido) => {
@@ -137,7 +140,6 @@ testbackend(){
       .subscribe((res: WPrest[]) => {
         //console.log("RZQ",res)
         this.store.dispatch(ingresoEgresoActions.setItems({ items: res }));
-        console.log('WORDPRESS ENTRADAS C A R G A D A S');
       });
   }
 
@@ -174,14 +176,18 @@ testbackend(){
       }
     }
   }
-  subeSoporte(file: File) {
+  subeSoporte(file: File, wordpressId: number) {
+
     const fd = new FormData();
     fd.append('soporte', file, file.name);
+
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.userToken,
     });
-    return this.http.post(`${this.urlbase}apimagu/v2/upload`, fd, {
+    return this.http.post(`${this.urlbase}apimagu/v2/upload/${wordpressId}`, fd, {
       headers: headers,
     });
   }
 }
+
+

@@ -29,6 +29,7 @@ export class FireServiceService {
             modalidadesdeuso: doc.payload.doc.data()['modalidadesdeuso'],
             derechoslicenciados: doc.payload.doc.data()['derechoslicenciados'],
             nombre: doc.payload.doc.data()['nombreapp'],
+            correonotificaciones: doc.payload.doc.data()['correonotificaciones'],
 
 
           }
@@ -69,7 +70,7 @@ export class FireServiceService {
     )
     .subscribe((res: LicenciaContenido[]) => {
       this.store.dispatch( licenciasActions.setLicencias({licencias: res}) )
-      console.log('LICENCIAS CARGADAS', res)
+
     })
   }
   /* cargaLI(){
@@ -99,7 +100,7 @@ export class FireServiceService {
         } )
       })
     ).subscribe((res: Contacto[]) => {
-      console.log('Les CONTACTOS', res)
+      //console.log('Les CONTACTOS', res)
       this.store.dispatch( contactosActions.setContactos({contactos: res}) )
 
     })
