@@ -1,6 +1,7 @@
 <!-- <button class="k-button" (click)="pdf.saveAs('invoice.pdf')">  Save As PDF...</button>
 <kendo-pdf-export #pdf paperSize="Letter" margin="1cm" [imageResolution]="'36 dpi'"></kendo-pdf-export> -->
-<div class="container" *ngIf="entradaActiva">
+
+<div class="container" *ngIf="entradaActiva; else nohay">
   <div class="row">
     <div class="col-4">
       <strong>{{ entradaActiva.tipo }}</strong>
@@ -29,14 +30,23 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-8"></div>
-    <div class="col-4">
-      <button kendoButton [icon]="'calendar'" *ngIf="!opened" (click)="open()">Agregar nueva licencia</button>
+  <div class="columns">
+    <div class="column is-8"></div>
+    <div class="column is-4">
+      <button class="button is-primary" *ngIf="!opened" (click)="open()">
+        <span class="icon is-small">
+          <i class="fas fa-id-badge"></i>
+        </span>
+        <span>Agregar nueva licencia</span>
+      </button>
+
     </div>
   </div>
   <hr>
 </div>
+<ng-template #nohay>
+  <h2>NO HAY INFO</h2>
+</ng-template>
     <div class="k-overlay" *ngIf="opened"></div>
     <kendo-window
     [title]="'Licencia nueva: ' + licencia.titulo + ' (' + entradaActiva.tipo + ')'"

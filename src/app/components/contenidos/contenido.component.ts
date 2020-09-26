@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducer';
 import { LicenciaContenido, EstadoContenido, FormaAdquisicion } from 'src/app/models/contenido.model';
@@ -14,12 +15,13 @@ import { WordpressService } from 'src/app/servicios/wordpress.service';
   styles: [
   ]
 })
-export class ContenidoComponent implements OnInit {
+export class ContenidoComponent implements OnInit, OnDestroy {
 imagen: string;
 contenido: LicenciaContenido;
 entradawp: EntradaWP
 licencias: LicenciaContenido[];
 existeEnLicencias: boolean = false;
+private fbSubs: Subscription[] = [];
   constructor(
     private route: ActivatedRoute,
     private wp: WordpressService,
@@ -30,12 +32,12 @@ existeEnLicencias: boolean = false;
 
   ngOnInit(): void {
     this.wp.entradaactiva = null
-    this.store.select('licencias').subscribe( ({licencias}) => {
+    this.fbSubs.push(this.store.select('licencias').subscribe( ({licencias}) => {
       this.licencias = licencias
-    } )
-    this.route.params.subscribe((e: any) => {
+    } ));
+    this.fbSubs.push(this.route.params.subscribe((e: any) => {
       console.log("RUTA ID ===>", e.id)
-      this.wp.cargarPost(e.id).pipe(
+      this.fbSubs.push(this.wp.cargarPost(e.id).pipe(
         map((entrada: EntradaWP) => {
           console.log("LA ENTRADA", entrada)
           return {
@@ -67,8 +69,8 @@ existeEnLicencias: boolean = false;
           console.log("NOO TIENE LICENCIA", this.existeEnLicencias)
           this.creacontenido()
         }
-      })
-    })
+      }))
+    }))
 
   }
 
@@ -93,5 +95,13 @@ existeEnLicencias: boolean = false;
     console.log(id)
     this.router.navigate(['/licencia', id])
   }
+
+  ngOnDestroy(){
+    this.cancelSubscriptions()
+  }
+  cancelSubscriptions() {
+    this.fbSubs.forEach(sub => sub.unsubscribe())
+    console.log("FUERA", this.fbSubs.length + ' <<<')
+}
 
 }

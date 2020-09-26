@@ -1,9 +1,9 @@
 <div class="container">
   <div class="col-12">
-    <span> {{ licenciaId }} -- {{ usuarioactivo }} </span>
-    <pre>
+    <!-- <span> {{ licenciaId }} -- {{ usuarioactivo }} </span> -->
+<!--     <pre>
       {{ editlicscence | json }}
-    </pre>
+    </pre> -->
   </div>
   <div class="col-12">
     <form
@@ -86,7 +86,7 @@
 
 
           <div class="form-group row">
-            <label class="col-4 col-form-label">Modalidades de uso</label>
+            <label class="col-4 col-form-label">Modalidades de uso (en revisión jurídica)</label>
             <div class="col-8">
               <kendo-multiselect
                 [data]="modalidades"
@@ -96,7 +96,7 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-4 col-form-label">Observaciones sobre las modalidades de uso</label>
+            <label class="col-4 col-form-label">Observaciones sobre las modalidades de uso (en revisión jurídica)</label>
             <div class="col-8">
               <textarea kendoTextArea formControlName="obsmodalidadesdeuso"></textarea>
 
@@ -106,7 +106,7 @@
 
 
           <div class="form-group row">
-            <label class="col-4 col-form-label">Derechos licenciados</label>
+            <label class="col-4 col-form-label">Derechos licenciados (en revisión jurídica)</label>
             <div class="col-8">
               <kendo-multiselect
                 [data]="derechos"
@@ -217,13 +217,13 @@
     </form>
   </div>
 </div>
-<pre style="background: powderblue;" *ngIf="lossoportes">
+<!-- <pre style="background: powderblue;" *ngIf="lossoportes">
   {{ lossoportes | json }}
 </pre>
 <pre style="background: pink;" *ngIf="licenciaEditada">
   {{ licenciaEditada | json }}
 
-</pre>
+</pre> -->
 <!-- <pre>
   {{ formulario.value | json }}
 </pre> -->

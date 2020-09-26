@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('navBurger') navBurger: ElementRef;
   @ViewChild('navMenu') navMenu: ElementRef;
   loggueado: boolean;
-usuario
+  usuario
   constructor(
     private router: Router,
     private ws: WordpressService
@@ -21,6 +21,7 @@ usuario
 
   ngOnInit(): void {
   this.ws.activo.subscribe((res) => {
+    console.log("ACTIVO", res)
     this.loggueado = res,
     this.usuario = this.ws.usuario
   })

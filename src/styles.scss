@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 /*! debug.css | MIT License | zaydek.github.com/debug.css */
 // Set your brand colors
-$purple: #F4275E;
-$pink: #FA7C91;
+$purple: #3175B7;
+$pink: #367C92;
 $brown: #757763;
 $beige-light: #D0D1CD;
-$beige-lighter: #EFF0EB;
+$beige-lighter: #fbfcf9;
 
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
@@ -53,4 +53,14 @@ kendo-pdf-export {
 
 .activoenlace{
   border-bottom: 5px $destacado solid;
+}
+
+
+
+.pointer{
+  cursor: pointer
+}
+
+section.section{
+  background-color: white;
 }

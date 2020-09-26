@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 //IMPORTO LAS ACCIONES
 import * as ingresoEgresoActions from '../components/store/datos.actions';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { FireServiceService } from './fire-service.service';
 import { LicenciaContenido } from '../models/contenido.model';
 import { WPrest } from '../models/wp.model';
@@ -20,7 +20,7 @@ export class WordpressService {
   urlbase: string = 'https://maguare.gov.co/wp-json/';
   urlBaseEnlaces: string = 'https://staging.maguare.gov.co/documentos/';
   licencias: LicenciaContenido[];
-  entradaactiva: EntradaWP;
+  entradaactiva: EntradaWP = null;
   private cambioEstado = new BehaviorSubject<boolean>(false);
   activo = this.cambioEstado.asObservable();
   usuario;
@@ -36,6 +36,7 @@ export class WordpressService {
 
   setEstado(estado: boolean) {
     this.cambioEstado.next(estado);
+
   }
 
   login(username: string, password: string) {
@@ -45,7 +46,7 @@ export class WordpressService {
         map((resp:any) => {
           this.fires.cargaOpcionesGenerales();
           this.guardarToken(resp);
-          this.cargaEntradas(resp.data.token);
+          this.cargaEntradas();
           this.setEstado(true);
           //this.testbackend()
           return resp;
@@ -60,6 +61,7 @@ export class WordpressService {
 } */
 
   logout() {
+    this.entradaactiva = null;
     this.usuario = null;
     this.userToken = '';
     localStorage.removeItem('token');
@@ -67,6 +69,7 @@ export class WordpressService {
     localStorage.removeItem('correo');
     this.router.navigate(['/ingreso']);
     this.setEstado(false);
+
   }
   validaUsuario() {
     const token = this.leerToken();
@@ -78,7 +81,21 @@ export class WordpressService {
       .post(`${this.urlbase}jwt-auth/v1/token/validate`, null, {
         headers: headers,
       })
-      .pipe(map((res: any) => res.success));
+      .pipe(
+        tap((res: any) => {
+          this.store.select('licencias').subscribe(
+            ({licencias}) => {
+              if(licencias.length === 0) {
+                this.cargaEntradas()
+                this.fires.cargaOpcionesGenerales()
+              }
+            },
+          ),
+
+          this.setEstado(res.success)
+        }),
+        map((res: any) => res.success)
+        );
   }
   private guardarToken(respuesta) {
     //console.log('PERFIL', respuesta.perfil);
@@ -96,6 +113,7 @@ export class WordpressService {
   leerToken() {
     if (localStorage.getItem('token')) {
       this.userToken = localStorage.getItem('token');
+      this.usuario =  localStorage.getItem('usuario');
     } else {
       this.userToken = '';
     }
@@ -107,10 +125,11 @@ export class WordpressService {
   }
   expresslogin() {
     this.fires.cargaOpcionesGenerales();
-    this.cargaEntradas(this.userToken);
+    this.cargaEntradas();
   }
 
-  cargaEntradas(token: string) {
+  cargaEntradas() {
+    let token = this.userToken;
     this.store
       .select('licencias')
       .subscribe(({ licencias }) => (this.licencias = licencias));
@@ -148,7 +167,7 @@ export class WordpressService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.userToken,
     });
-    console.log('HEADRES IN CARDGRA POTS', headers);
+    //console.log('HEADRES IN CARDGRA POTS', headers);
     return this.http.get(`${this.urlbase}apimagu/v2/contenido/${id}`, {
       headers: headers,
     });
@@ -167,12 +186,15 @@ export class WordpressService {
   existeEnFirebase(items: WPrest[]) {
     for (let lic of this.licencias) {
       if (items.find((entrada) => entrada.id === lic.wpid)) {
+        console.info("Existe en firebase TRUE")
         this.store.dispatch(
           ingresoEgresoActions.firebaseActivo({
             id: lic.wpid,
             firebase: true,
           })
         );
+      }else{
+        console.info("Existe en firebase FALSE")
       }
     }
   }

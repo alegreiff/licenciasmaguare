@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { map } from 'rxjs/operators';
+import { filter, find, map } from 'rxjs/operators';
 import { AppState } from '../app.reducer';
 //IMPORTO LAS ACCIONES
 import * as licenciasActions from "../components/store/licencias.actions";
@@ -9,6 +9,7 @@ import * as contactosActions from "../components/store/contactos.actions";
 import * as opcionesActions from "../components/store/opciones.actions";
 import { Contacto } from '../models/contacto.model';
 import { LicenciaContenido } from '../models/contenido.model';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +19,21 @@ export class FireServiceService {
     private db: AngularFirestore,
     private store: Store<AppState>
   ) { }
+
+  obtieneWordPressID(id: string){
+    return this.store.select('licencias')
+    .pipe(
+
+      map(({licencias}) => {
+        const sale = licencias.find( licencia => licencia.id === id)
+        if ( sale  ){
+          return sale.wpid
+        }
+
+      })
+    )
+
+  }
   cargaOpcionesGenerales(){
     return this.db.collection('opciones').snapshotChanges().pipe(
       map(res => {

@@ -13,12 +13,11 @@
 
   <div id="navbarBasicExample" class="navbar-menu" #navMenu>
     <div class="navbar-start">
-      <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/contenidos">Contenidos</a>
       <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/reportelicencias">Reporte licencias</a>
+      <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/contenidos">Contenidos</a>
       <a class="navbar-item" *ngIf="loggueado"  routerLinkActive="activoenlace" routerLink="/contactos">Contactos</a>
-
-
-      <div class="navbar-item has-dropdown is-hoverable">
+      <!-- <a class="navbar-item" *ngIf="loggueado"  > {{ usuario | json }} </a> -->
+      <!-- <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" >
           {{ loggueado | json }}
         </a>
@@ -38,7 +37,7 @@
             Report an issue
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="navbar-end">

@@ -23,14 +23,16 @@
 
     <kendo-grid-column field="id" [width]="50" [filterable]="false">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <button class="button is-small" (click)="edit(dataItem.id)"> Editar </button>
+        <!-- <button class="button is-small" (click)="edit(dataItem.id)"> Editar </button> -->
+        <span class="tag is-link pointer" (click)="edit(dataItem.id)">Ver</span>
+
 
 
     </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="title" [width]="200"></kendo-grid-column>
     <kendo-grid-column field="tipo" [width]="60"></kendo-grid-column>
-    <kendo-grid-column field="firebase" [width]="100"></kendo-grid-column>
+    <kendo-grid-column field="firebase" title="Tiene Licencias" [width]="100"></kendo-grid-column>
     <kendo-grid-column field="id" [width]="100"></kendo-grid-column>
   </kendo-grid>
     </div>

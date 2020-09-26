@@ -25,6 +25,7 @@ public checked: boolean = false;
     ) { }
 
   ngOnInit(): void {
+    console.log("EXISTE ENTRADA ACTIVA", this.ws.entradaactiva)
     this.ws.leerToken()
     this.statttus = this.activo;
     /* this.activo.subscribe((res) => {

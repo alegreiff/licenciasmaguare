@@ -9,7 +9,10 @@ import { WordpressService } from './wordpress.service';
 export class AuthGuard implements CanActivate {
   constructor(private ws: WordpressService){}
   canActivate(): Observable<boolean>{
-    this.ws.validaUsuario().subscribe(res =>  { console.log(res)})
+    /* this.ws.validaUsuario().subscribe(res =>  {
+      console.log(res)
+    }) */
+
     return this.ws.validaUsuario()
   }
 
